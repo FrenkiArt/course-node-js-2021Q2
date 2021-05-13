@@ -1,7 +1,13 @@
-const getAll = async (dataBase) =>
+const dataBase = [];
+
+const getAll = async () =>
   // TODO: mock implementation. should be replaced during task development
   // [];
 
-  dataBase || [];
+  dataBase;
 
-module.exports = { getAll };
+const addNewUser = async (newUser) => {
+  dataBase.push(newUser);
+};
+
+module.exports = { getAll, addNewUser };

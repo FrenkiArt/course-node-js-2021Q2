@@ -2,13 +2,11 @@ const router = require('express').Router();
 const User = require('./user.model');
 const usersService = require('./user.service');
 
-const dataBase = [];
-
 router.route('/').get(async (req, res) => {
-  const users = await usersService.getAll(dataBase);
+  const users = await usersService.getAll();
 
   // map user fields to exclude secret fields like "password"
-  res.status(200).json(users.map(User.toResponse));
+  res.json(users.map(User.toResponse));
 });
 
 /* router.route('/:userId').get(async (req, res) => {
@@ -20,8 +18,7 @@ router.route('/').post(async (req, res) => {
 
   const userArgs = req.body;
   const newUser = new User(userArgs);
-
-  dataBase.push(newUser);
+  await usersService.addNewUser(newUser);
 
   return res.sendStatus(201);
 });
