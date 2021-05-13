@@ -16,13 +16,12 @@ router.route('/:userId').get(async (req, res) => {
 
   users.forEach((item) => {
     if (item.id === req.params.userId) {
-      user = item;
-      delete user.password;
+      user = User.toResponse(item);
     }
   });
 
   if (user) {
-    res.status(200).send(user);
+    res.status(200).json(user);
   } else {
     res.status(404).send();
   }
@@ -57,6 +56,23 @@ router.route('/:userId').put(async (req, res) => {
   }
 });
 
-router.route('/:userId').delete(async (req, res) => {});
+router.route('/:userId').delete(async (req, res) => {
+  const users = await usersService.getAll();
+
+  let userIsBe = null;
+
+  users.forEach((item) => {
+    if (item.id === req.params.userId) {
+      userIsBe = true;
+    }
+  });
+
+  if (userIsBe) {
+    usersService.deleteUser(req.params.userId);
+    res.status(204).send();
+  } else {
+    res.status(404).send();
+  }
+});
 
 module.exports = router;

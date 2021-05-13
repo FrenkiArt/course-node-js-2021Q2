@@ -19,9 +19,9 @@ let dataBase = [
     password: 'password',
   },
   {
-    id: '3e8976e4-2b7d-43f9-be58-62cb2ce25482',
-    name: '444',
-    login: '444',
+    id: 'b8024a93-3e78-415b-946c-ef7f79deb6e1',
+    name: '555',
+    login: '555',
     password: 'password',
   },
 ];
@@ -43,7 +43,6 @@ const updateUser = async (userArgs, userID) => {
       updatedItem.id = item.id;
       return updatedItem;
     }
-
     return item;
   });
 
@@ -51,4 +50,18 @@ const updateUser = async (userArgs, userID) => {
   // console.log('New DB', dataBase);
 };
 
-module.exports = { getAll, addNewUser, updateUser };
+const deleteUser = async (userID) => {
+  const newDB = dataBase.map((item) => {
+    if (item.id === userID) {
+      const update = {};
+      update.id = item.id;
+      return update;
+    }
+    return item;
+  });
+
+  dataBase = newDB;
+  // console.log('New DB', dataBase);
+};
+
+module.exports = { getAll, addNewUser, updateUser, deleteUser };
