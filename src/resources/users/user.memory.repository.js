@@ -1,14 +1,7 @@
-const fs = require('fs');
-
-const filePath = 'src/resources/data/user.json';
-
-const getAll = async () =>
+const getAll = async (dataBase) =>
   // TODO: mock implementation. should be replaced during task development
   // [];
 
-  fs.readFile(filePath, 'utf8', (err, data) => {
-    if (err) throw err;
+  dataBase || [];
 
-    return JSON.parse(data);
-  });
 module.exports = { getAll };
