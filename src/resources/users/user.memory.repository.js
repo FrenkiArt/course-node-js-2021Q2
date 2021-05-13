@@ -36,8 +36,19 @@ const addNewUser = async (newUser) => {
   dataBase.push(newUser);
 };
 
-const updateUser = async (db) => {
-  dataBase = db;
+const updateUser = async (userArgs, userID) => {
+  const newDB = dataBase.map((item) => {
+    if (item.id === userID) {
+      const updatedItem = userArgs;
+      updatedItem.id = item.id;
+      return updatedItem;
+    }
+
+    return item;
+  });
+
+  dataBase = newDB;
+  // console.log('New DB', dataBase);
 };
 
 module.exports = { getAll, addNewUser, updateUser };

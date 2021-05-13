@@ -42,32 +42,21 @@ router.route('/:userId').put(async (req, res) => {
   const users = await usersService.getAll();
 
   let userIsBe = null;
-  const newDB = [];
 
   users.forEach((item) => {
-    let newItem = {};
-
     if (item.id === req.params.userId) {
-      newItem = req.body;
       userIsBe = true;
-    } else {
-      newItem = item;
     }
-
-    newDB.push(newItem);
   });
 
   if (userIsBe) {
-    usersService.updateUser(newDB);
+    usersService.updateUser(req.body, req.params.userId);
     res.status(200).send();
   } else {
     res.status(404).send();
   }
 });
 
-/* 
-router.route('/:userId').delete(async (req, res) => {
-  console.log(req, res);
-}); */
+router.route('/:userId').delete(async (req, res) => {});
 
 module.exports = router;
