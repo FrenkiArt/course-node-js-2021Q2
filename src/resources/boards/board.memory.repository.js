@@ -28,15 +28,20 @@ const updateBoard = async (boardArgs, boardId) => {
 };
 
 const deleteBoard = async (boardId) => {
-  dataBase.boards.forEach((item) => {
+  let indexNumber = null;
+  dataBase.boards.forEach((item, index) => {
     if (item.id === boardId) {
-      delete item.title;
+      /* delete item.title;
       delete item.columns;
+      delete item.id;
 
-      return item;
+      return item; */
+
+      indexNumber = index;
     }
-    return item;
   });
+
+  dataBase.boards.splice(indexNumber, 1);
 };
 
 module.exports = {

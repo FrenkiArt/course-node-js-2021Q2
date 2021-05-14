@@ -31,15 +31,22 @@ const updateUser = async (userArgs, userId) => {
 };
 
 const deleteUser = async (userId) => {
-  dataBase.users.forEach((item) => {
-    if (item.id === userId) {
+  dataBase.users.forEach((item, index) => {
+    /* if (item.id === userId) {
       delete item.name;
       delete item.login;
       delete item.password;
+      delete item.id;
 
       return item;
     }
-    return item;
+    return item; */
+
+    let indexNumber = null;
+    if (item.id === userId) {
+      indexNumber = index;
+    }
+    dataBase.users.splice(indexNumber, 1);
   });
 };
 
