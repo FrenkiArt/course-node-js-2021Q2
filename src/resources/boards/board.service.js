@@ -4,9 +4,9 @@ const getAll = () => boardsRepo.getAll();
 const getById = (userId) => boardsRepo.getById(userId);
 const createBoard = (newBoard) => boardsRepo.createBoard(newBoard);
 const addBoard = (board) => boardsRepo.addBoard(board);
-const updateBoard = (boardArgs, boardID) =>
-  boardsRepo.updateBoard(boardArgs, boardID);
-const deleteBoard = (boardID) => boardsRepo.deleteBoard(boardID);
+const updateBoard = (boardArgs, boardId) =>
+  boardsRepo.updateBoard(boardArgs, boardId);
+const deleteBoard = (boardId) => boardsRepo.deleteBoard(boardId);
 
 module.exports = {
   getAll,

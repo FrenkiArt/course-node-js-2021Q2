@@ -17,7 +17,7 @@ router.route('/:userId').get(async (req, res) => {
   } else {
     res.status(404).json({
       id: req.params.userId,
-      error: `Пользователя с ID ${req.params.userId} не найдено.`,
+      error: `Пользователя с Id ${req.params.userId} не найдено.`,
     });
   }
 });
@@ -44,7 +44,7 @@ router.route('/:userId').put(async (req, res) => {
   } else {
     res
       .status(404)
-      .json({ error: `Пользователя с ID ${req.params.userId} не найдено.` });
+      .json({ error: `Пользователя с Id ${req.params.userId} не найдено.` });
   }
 });
 
@@ -65,7 +65,7 @@ router.route('/:userId').delete(async (req, res) => {
   } else {
     res
       .status(404)
-      .json({ error: `Пользователя с ID ${req.params.userId} не найдено.` });
+      .json({ error: `Пользователя с Id ${req.params.userId} не найдено.` });
   }
 });
 

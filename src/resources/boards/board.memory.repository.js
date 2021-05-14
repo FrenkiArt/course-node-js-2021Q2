@@ -15,9 +15,9 @@ const createBoard = async (newBoard) => {
   return getById(newBoard.id);
 };
 
-const updateBoard = async (boardArgs, boardID) => {
+const updateBoard = async (boardArgs, boardId) => {
   dataBase.boards.forEach((item) => {
-    if (item.id === boardID) {
+    if (item.id === boardId) {
       item.title = boardArgs.title;
       item.columns = boardArgs.columns;
 
@@ -27,9 +27,9 @@ const updateBoard = async (boardArgs, boardID) => {
   });
 };
 
-const deleteBoard = async (boardID) => {
+const deleteBoard = async (boardId) => {
   dataBase.boards.forEach((item) => {
-    if (item.id === boardID) {
+    if (item.id === boardId) {
       delete item.title;
       delete item.columns;
 

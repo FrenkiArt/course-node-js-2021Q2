@@ -15,7 +15,7 @@ router.route('/:boardId').get(async (req, res) => {
   } else {
     res.status(404).json({
       id: req.params.boardId,
-      error: `Доски с ID ${req.params.boardId} не найдено.`,
+      error: `Доски с Id ${req.params.boardId} не найдено.`,
     });
   }
 });
@@ -42,7 +42,7 @@ router.route('/:boardId').put(async (req, res) => {
   } else {
     res
       .status(404)
-      .json({ error: `Доски с ID ${req.params.boardId} не найдено.` });
+      .json({ error: `Доски с Id ${req.params.boardId} не найдено.` });
   }
 });
 
@@ -63,7 +63,7 @@ router.route('/:boardId').delete(async (req, res) => {
   } else {
     res
       .status(404)
-      .json({ error: `Доски с ID ${req.params.userId} не найдено.` });
+      .json({ error: `Доски с Id ${req.params.userId} не найдено.` });
   }
 });
 
