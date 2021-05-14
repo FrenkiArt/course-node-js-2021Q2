@@ -1,11 +1,21 @@
-/* eslint-disable no-param-reassign */
 const uuid = require('uuid');
 
 class Board {
   constructor({
     id = uuid.v4(),
+    columnsCounter = 0,
     title = 'Board title',
     columns = [
+      {
+        id: uuid.v4(),
+        title: 'string',
+        order: 0,
+      },
+      {
+        id: uuid.v4(),
+        title: 'string',
+        order: 0,
+      },
       {
         id: uuid.v4(),
         title: 'string',
@@ -14,11 +24,15 @@ class Board {
     ],
   } = {}) {
     this.id = id;
+    this.columnsCounter = columnsCounter;
     this.title = title;
     this.columns = columns.map((item) => {
       if (!item.id) {
         item.id = uuid.v4();
       }
+
+      item.order = ++this.columnsCounter;
+
       return item;
     });
   }

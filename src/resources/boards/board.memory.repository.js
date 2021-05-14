@@ -1,4 +1,3 @@
-/* eslint-disable no-param-reassign */
 const { dataBase } = require('../../common/inMemoryDb.js');
 
 const getAll = async () => dataBase.boards;
@@ -32,8 +31,7 @@ const deleteBoard = async (boardId) => {
   dataBase.boards.forEach((item, index) => {
     if (item.id === boardId) {
       /* delete item.title;
-      delete item.columns;
-      delete item.id;
+      delete item.columns; 
 
       return item; */
 

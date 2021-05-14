@@ -1,4 +1,3 @@
-/* eslint-disable no-param-reassign */
 const { dataBase } = require('../../common/inMemoryDb.js');
 
 const getAll = async () =>
@@ -35,8 +34,7 @@ const deleteUser = async (userId) => {
     /* if (item.id === userId) {
       delete item.name;
       delete item.login;
-      delete item.password;
-      delete item.id;
+      delete item.password; 
 
       return item;
     }
