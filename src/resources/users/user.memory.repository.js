@@ -30,6 +30,8 @@ const updateUser = async (userArgs, userId) => {
 };
 
 const deleteUser = async (userId) => {
+  let indexNumber = null;
+
   dataBase.users.forEach((item, index) => {
     /* if (item.id === userId) {
       delete item.name;
@@ -40,12 +42,12 @@ const deleteUser = async (userId) => {
     }
     return item; */
 
-    let indexNumber = null;
     if (item.id === userId) {
       indexNumber = index;
     }
-    dataBase.users.splice(indexNumber, 1);
   });
+
+  dataBase.users.splice(indexNumber, 1);
 };
 
 module.exports = {

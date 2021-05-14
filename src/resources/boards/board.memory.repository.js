@@ -28,6 +28,7 @@ const updateBoard = async (boardArgs, boardId) => {
 
 const deleteBoard = async (boardId) => {
   let indexNumber = null;
+
   dataBase.boards.forEach((item, index) => {
     if (item.id === boardId) {
       /* delete item.title;

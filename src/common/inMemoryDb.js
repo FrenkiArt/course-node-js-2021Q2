@@ -1,5 +1,6 @@
 const Board = require('../resources/boards/board.model');
 const User = require('../resources/users/user.model');
+const Task = require('../resources/tasks/task.model');
 
 const dataBase = {
   users: [
@@ -11,9 +12,11 @@ const dataBase = {
     },
   ],
   boards: [],
+  tasks: [],
 };
 
 dataBase.users.push(new User(), new User(), new User());
 dataBase.boards.push(new Board(), new Board(), new Board());
+dataBase.tasks.push(new Task(), new Task(), new Task());
 
 module.exports = { dataBase };
