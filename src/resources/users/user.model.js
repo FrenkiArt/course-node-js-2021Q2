@@ -18,7 +18,7 @@ class User {
     return { id, name, login };
   }
 
-  static getID(user) {
+  static getId(user) {
     const { id } = user;
     return { id };
   }
