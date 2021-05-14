@@ -3,21 +3,22 @@ const { dataBase } = require('../../common/inMemoryDb.js');
 
 const getAll = async () =>
   // [];
-  dataBase;
+  dataBase.users;
 
-const getById = async (userId) => dataBase.filter((el) => el.id === userId)[0];
+const getById = async (userId) =>
+  dataBase.users.filter((el) => el.id === userId)[0];
 
 const addNewUser = async (newUser) => {
-  dataBase.push(newUser);
+  dataBase.users.push(newUser);
 };
 
 const createUser = async (newUser) => {
-  dataBase.push(newUser);
+  dataBase.users.push(newUser);
   return getById(newUser.id);
 };
 
 const updateUser = async (userArgs, userID) => {
-  dataBase.forEach((item) => {
+  dataBase.users.forEach((item) => {
     if (item.id === userID) {
       item.name = userArgs.name;
       item.login = userArgs.login;
@@ -30,7 +31,7 @@ const updateUser = async (userArgs, userID) => {
 };
 
 const deleteUser = async (userID) => {
-  dataBase.forEach((item) => {
+  dataBase.users.forEach((item) => {
     if (item.id === userID) {
       delete item.name;
       delete item.login;
