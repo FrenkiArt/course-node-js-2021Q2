@@ -1,5 +1,9 @@
 const { dataBase } = require('../../common/inMemoryDb.js');
 
+/**
+ * Эта функция возвращает массив задач конкретной доски.
+ * @returns {array} Ассоциативный массив задач конкретной доски.
+ */
 const getAll = async (boardId) => {
   const tasksByBoardId = dataBase.tasks.filter(
     (task) => task.boardId === boardId

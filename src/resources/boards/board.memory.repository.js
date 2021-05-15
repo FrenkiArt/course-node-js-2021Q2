@@ -1,5 +1,9 @@
 const { dataBase } = require('../../common/inMemoryDb.js');
 
+/**
+ * Эта функция возвращает массив "Досок".
+ * @returns {array} Ассоциативный массив "Досок".
+ */
 const getAll = async () => dataBase.boards;
 
 const getById = async (boardId) =>
