@@ -33,15 +33,6 @@ const deleteUser = async (userId) => {
   let indexNumber = null;
 
   dataBase.users.forEach((item, index) => {
-    /* if (item.id === userId) {
-      delete item.name;
-      delete item.login;
-      delete item.password; 
-
-      return item;
-    }
-    return item; */
-
     if (item.id === userId) {
       indexNumber = index;
     }

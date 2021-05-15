@@ -1,11 +1,29 @@
 const { dataBase } = require('../../common/inMemoryDb.js');
 
-const getAll = async () =>
-  // [];
-  dataBase.tasks;
+const getAll = async (boardId) => {
+  const tasksByBoardId = dataBase.tasks.filter(
+    (task) => task.boardId === boardId
+  );
 
-const getById = async (taskId) =>
-  dataBase.tasks.filter((el) => el.id === taskId)[0];
+  return tasksByBoardId;
+};
+
+const deleteAllTasksByBoardId = async (boardId) => {
+  dataBase.tasks = dataBase.tasks.filter((task) => task.boardId !== boardId);
+};
+
+const deleteUserIdFromAllHisTasks = async (userId) => {
+  dataBase.tasks.forEach((task) => {
+    if (task.userId === userId) {
+      task.userId = null;
+    }
+  });
+};
+
+const getById = async (args) =>
+  dataBase.tasks.filter(
+    (task) => task.id === args.taskId && task.boardId === args.boardId
+  )[0];
 
 const addNewTask = async (newTask) => {
   dataBase.tasks.push(newTask);
@@ -13,7 +31,7 @@ const addNewTask = async (newTask) => {
 
 const createTask = async (newTask) => {
   dataBase.tasks.push(newTask);
-  return getById(newTask.id);
+  return newTask;
 };
 
 const updateTask = async (taskArgs, taskId) => {
@@ -51,4 +69,6 @@ module.exports = {
   deleteTask,
   getById,
   createTask,
+  deleteAllTasksByBoardId,
+  deleteUserIdFromAllHisTasks,
 };

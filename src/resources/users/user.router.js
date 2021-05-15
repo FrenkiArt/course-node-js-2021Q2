@@ -1,6 +1,7 @@
 const router = require('express').Router();
 const User = require('./user.model');
 const usersService = require('./user.service');
+const tasksService = require('../tasks/task.service');
 
 router.route('/').get(async (req, res) => {
   const users = await usersService.getAll();
@@ -61,6 +62,7 @@ router.route('/:userId').delete(async (req, res) => {
 
   if (userIsBe) {
     usersService.deleteUser(req.params.userId);
+    tasksService.deleteUserIdFromAllHisTasks(req.params.userId);
     res.status(204).json({ message: 'Объект удалён' });
   } else {
     res

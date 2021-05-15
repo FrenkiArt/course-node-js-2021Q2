@@ -3,13 +3,23 @@ const Task = require('./task.model');
 const tasksService = require('./task.service');
 
 router.route('/').get(async (req, res) => {
-  const tasks = await tasksService.getAll();
+  const tasks = await tasksService.getAll(req.params.boardId);
 
-  res.json(tasks);
+  if (tasks.length > 0) {
+    res.status(200).json(tasks);
+  } else {
+    res.status(404).json({
+      boardId: req.params.boardId,
+      error: `Задач с boardId ${req.params.boardId} не найдено`,
+    });
+  }
 });
 
 router.route('/:taskId').get(async (req, res) => {
-  const taskById = await tasksService.getById(req.params.taskId);
+  const taskById = await tasksService.getById({
+    boardId: req.params.boardId,
+    taskId: req.params.taskId,
+  });
 
   if (taskById) {
     res.status(200).json(taskById);
@@ -22,12 +32,16 @@ router.route('/:taskId').get(async (req, res) => {
 });
 
 router.route('/').post(async (req, res) => {
+  if (req.body.boardId === null) {
+    req.body.boardId = req.params.boardId;
+  }
+
   const task = await tasksService.createTask(new Task(req.body));
   res.status(201).json(task);
 });
 
 router.route('/:taskId').put(async (req, res) => {
-  const tasks = await tasksService.getAll();
+  const tasks = await tasksService.getAll(req.params.boardId);
 
   let taskIsBe = null;
 
@@ -48,7 +62,7 @@ router.route('/:taskId').put(async (req, res) => {
 });
 
 router.route('/:taskId').delete(async (req, res) => {
-  const tasks = await tasksService.getAll();
+  const tasks = await tasksService.getAll(req.params.boardId);
 
   let taskIsBe = null;
 

@@ -27,20 +27,24 @@ const updateBoard = async (boardArgs, boardId) => {
 };
 
 const deleteBoard = async (boardId) => {
-  let indexNumber = null;
+  let indexBoardNumber = null;
+  const newDbTasks = [];
 
   dataBase.boards.forEach((item, index) => {
     if (item.id === boardId) {
-      /* delete item.title;
-      delete item.columns; 
-
-      return item; */
-
-      indexNumber = index;
+      indexBoardNumber = index;
     }
   });
 
-  dataBase.boards.splice(indexNumber, 1);
+  dataBase.boards.splice(indexBoardNumber, 1);
+
+  dataBase.tasks.forEach((item) => {
+    if (item.boardId !== boardId) {
+      newDbTasks.push(item);
+    }
+  });
+
+  dataBase.tasks = newDbTasks;
 };
 
 module.exports = {

@@ -5,6 +5,7 @@ class Board {
     id = uuid.v4(),
     columnsCounter = 0,
     title = 'Board title',
+    userId = 'userId',
     columns = [
       {
         id: uuid.v4(),
@@ -26,6 +27,7 @@ class Board {
     this.id = id;
     this.columnsCounter = columnsCounter;
     this.title = title;
+    this.userId = userId;
     this.columns = columns.map((item) => {
       if (!item.id) {
         item.id = uuid.v4();

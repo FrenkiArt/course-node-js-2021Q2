@@ -1,6 +1,10 @@
 const tasksRepo = require('./task.memory.repository');
 
-const getAll = () => tasksRepo.getAll();
+const getAll = (boardId) => tasksRepo.getAll(boardId);
+const deleteAllTasksByBoardId = (boardId) =>
+  tasksRepo.deleteAllTasksByBoardId(boardId);
+const deleteUserIdFromAllHisTasks = (userId) =>
+  tasksRepo.deleteUserIdFromAllHisTasks(userId);
 const getById = (taskId) => tasksRepo.getById(taskId);
 const createTask = (newTask) => tasksRepo.createTask(newTask);
 const addNewTask = (newTask) => tasksRepo.addNewTask(newTask);
@@ -14,4 +18,6 @@ module.exports = {
   deleteTask,
   getById,
   createTask,
+  deleteAllTasksByBoardId,
+  deleteUserIdFromAllHisTasks,
 };
