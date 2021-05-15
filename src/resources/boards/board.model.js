@@ -1,6 +1,14 @@
 const uuid = require('uuid');
 
 class Board {
+  /**
+   * Этот класс создаёт экземпляр доски пользователя.
+   * @param {string} id - ID доски пользователя.
+   * @param {string} columnsCounter - Счётчик колонок.
+   * @param {string} title - Заголовок доски.
+   * @param {string} userId - ID пользователя.
+   * @param {string} columns - Ассоциативный массив колонок.
+   */
   constructor({
     id = uuid.v4(),
     columnsCounter = 0,
@@ -37,16 +45,6 @@ class Board {
 
       return item;
     });
-  }
-
-  static toResponse(board) {
-    const { id, title, columns } = board;
-    return { id, title, columns };
-  }
-
-  static getId(board) {
-    const { id } = board;
-    return { id };
   }
 }
 
