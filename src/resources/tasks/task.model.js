@@ -1,4 +1,4 @@
-const uuid = require('uuid');
+import uuid from 'uuid';
 
 /**
  * Task class | Класс задачи
@@ -36,4 +36,4 @@ class Task {
   }
 }
 
-module.exports = Task;
+export default Task;

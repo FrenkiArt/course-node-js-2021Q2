@@ -1,4 +1,4 @@
-const { dataBase } = require('../../common/inMemoryDb.js');
+import dataBase from '../../common/inMemoryDb.ts';
 
 /**
  * This function returns an array of users.
@@ -78,7 +78,7 @@ const deleteUser = async (userId) => {
   dataBase.users.splice(indexNumber, 1);
 };
 
-module.exports = {
+export default {
   getAll,
   addNewUser,
   updateUser,

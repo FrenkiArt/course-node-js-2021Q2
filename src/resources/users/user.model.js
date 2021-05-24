@@ -1,4 +1,4 @@
-const uuid = require('uuid');
+import uuid from 'uuid';
 
 /**
  * User Class | Класс Пользователя
@@ -49,4 +49,4 @@ class User {
   }
 }
 
-module.exports = User;
+export default User;
