@@ -1,8 +1,26 @@
+/**
+ * Error logging function
+ * Функция логгирования ошибок
+ * @param {Object} err - error object | Объект ошибки
+ * @param {Object} req - request object | Объект запроса
+ * @param {Object} res - response object | Объект ответа
+ * @param {*} next - Transfer control to the next function | Передача
+ * управления следующей функции
+ */
 function logErrors(err, req, res, next) {
   console.error(err.stack);
   next(err);
 }
 
+/**
+ * Error logging function
+ * Функция логгирования ошибок
+ * @param {Object} err - error object | Объект ошибки
+ * @param {Object} req - request object | Объект запроса
+ * @param {Object} res - response object | Объект ответа
+ * @param {*} next - Transfer control to the next function | Передача
+ * управления следующей функции
+ */
 function clientErrorHandler(err, req, res, next) {
   if (req.xhr) {
     res.status(500).send({ error: 'Something failed!' });
@@ -11,6 +29,16 @@ function clientErrorHandler(err, req, res, next) {
   }
 }
 
+/**
+ * Error logging function
+ * Функция логгирования ошибок
+ * @param {Object} err - error object | Объект ошибки
+ * @param {Object} req - request object | Объект запроса
+ * @param {Object} res - response object | Объект ответа
+ * @param {Function} next() - Transfer control to the next function | Передача
+ * управления следующей функции
+ * @return {Void}
+ */
 function errorHandler(err, req, res, next) {
   if (res.headersSent) {
     return next(err);
@@ -19,7 +47,4 @@ function errorHandler(err, req, res, next) {
   res.render('error', { error: err });
 }
 
-function aaa(ddd) {
-  console.log(ddd);
-}
 module.exports = { logErrors, clientErrorHandler, errorHandler };

@@ -1,15 +1,21 @@
 const uuid = require('uuid');
 
+/**
+ * Task class | Класс задачи
+ * @class
+ */
 class Task {
   /**
+   * This class creates an instance of the user's task.
    * Этот класс создаёт экземпляр задачи пользователя.
-   * @param {string} id - ID задачи.
-   * @param {string} title - Заголовок задачи.
-   * @param {string} order - Порядковый номер задачи.
-   * @param {string} description - Описание задачи.
-   * @param {string} userId - ID пользователя.
-   * @param {string} boardId - ID доски.
-   * @param {string} columnId - ID колонки.
+   * @param {string} id - Task ID.| ID задачи.
+   * @param {string} title - The title of the task.| Заголовок задачи.
+   * @param {string} order - The sequential number of the task.| Порядковый
+   * номер задачи.
+   * @param {string} description - Task description.| Описание задачи.
+   * @param {string} userId - User ID.| ID пользователя.
+   * @param {string} boardId - Board ID | ID доски.
+   * @param {string} columnId - Column ID. ID колонки.
    */
   constructor({
     id = uuid.v4(),

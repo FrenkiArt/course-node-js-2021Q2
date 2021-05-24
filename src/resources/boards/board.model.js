@@ -1,13 +1,18 @@
 const uuid = require('uuid');
-
+/**
+ * Board Class | Класс Доски
+ * @class
+ */
 class Board {
   /**
+   * This class creates an instance of the user's whiteboard.
    * Этот класс создаёт экземпляр доски пользователя.
-   * @param {string} id - ID доски пользователя.
-   * @param {string} columnsCounter - Счётчик колонок.
-   * @param {string} title - Заголовок доски.
-   * @param {string} userId - ID пользователя.
-   * @param {string} columns - Ассоциативный массив колонок.
+   * @param {string} id - ID of the user's board.| ID доски пользователя.
+   * @param {string} columnsCounter - Column counter.| Счётчик колонок.
+   * @param {string} title - The title of the board.| Заголовок доски.
+   * @param {string} userId - User ID.| ID пользователя.
+   * @param {string} columns - Associative array of columns.| Ассоциативный
+   * массив колонок.
    */
   constructor({
     id = uuid.v4(),

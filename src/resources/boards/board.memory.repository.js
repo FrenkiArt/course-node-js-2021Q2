@@ -1,31 +1,36 @@
 const { dataBase } = require('../../common/inMemoryDb.js');
 
 /**
+ * This function returns an array of "Boards".
  * Эта функция возвращает массив "Досок".
- * @returns {array} Ассоциативный массив "Досок".
+ * @return {array} Associative array of "Boards".| Ассоциативный массив "Досок".
  */
 const getAll = async () => dataBase.boards;
 
 /**
+ * This function returns the board by ID.
  * Эта функция возвращает доску по ID.
- * @param {string} boardId - ID доски.
- * @returns {object} Объект доски.
+ * @param {string} boardId - Board ID.| ID доски.
+ * @return {object} Board object.| Объект доски.
  */
 const getById = async (boardId) =>
   dataBase.boards.filter((el) => el.id === boardId)[0];
 
 /**
+ * This function adds a board to the database.
  * Эта функция добавляет в базу доску.
- * @param {object} board Объект доски пользователя.
+ * @param {object} board The user's board object.| Объект доски пользователя.
  */
 const addBoard = async (board) => {
   dataBase.boards.push(board);
 };
 
 /**
+ * This function creates a new user board and adds it to the database.
  * Эта функция создания новой доски пользователя и добавления её в базу.
- * @param {object} newBoard Объект новой доски пользователя.
- * @returns {object} Объект доски.
+ * @param {object} newBoard The object of the user's new board.| Объект
+ * новой доски пользователя.
+ * @return {object} Board object.| Объект доски.
  */
 const createBoard = async (newBoard) => {
   dataBase.boards.push(newBoard);
@@ -33,9 +38,11 @@ const createBoard = async (newBoard) => {
 };
 
 /**
+ * This function updates the user's board data in the database.
  * Эта функция обновляет данные доски пользователя в базе данных.
- * @param {object} boardArgs Объект передаваемых аргументов.
- * @param {string} boardId Id доски.
+ * @param {object} boardArgs The object of the arguments to be passed.|
+ * Объект передаваемых аргументов.
+ * @param {string} boardId Board ID.| Id доски.
  */
 const updateBoard = async (boardArgs, boardId) => {
   dataBase.boards.forEach((item) => {
@@ -50,10 +57,10 @@ const updateBoard = async (boardArgs, boardId) => {
 };
 
 /**
+ * This function removes the user's board from the database.
  * Эта функция удаляет доску пользователя из базы данных.
- * @param {string} boardId Id доски.
+ * @param {string} boardId Board ID.| Id доски.
  */
-
 const deleteBoard = async (boardId) => {
   let indexBoardNumber = null;
   const newDbTasks = [];
