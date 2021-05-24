@@ -19,4 +19,7 @@ function errorHandler(err, req, res, next) {
   res.render('error', { error: err });
 }
 
+function aaa(ddd) {
+  console.log(ddd);
+}
 module.exports = { logErrors, clientErrorHandler, errorHandler };
