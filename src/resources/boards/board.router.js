@@ -1,7 +1,9 @@
-const router = require('express').Router();
-const Board = require('./board.model');
-const boardsService = require('./board.service');
-const tasksService = require('../tasks/task.service');
+import express from 'express';
+import Board from './board.model';
+import boardsService from './board.service';
+import tasksService from '../tasks/task.service';
+
+const router = express.Router();
 
 router.route('/').get(async (req, res) => {
   const boards = await boardsService.getAll();
@@ -70,4 +72,4 @@ router.route('/:boardId').delete(async (req, res) => {
   }
 });
 
-module.exports = router;
+export default router;

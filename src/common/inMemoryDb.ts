@@ -2,10 +2,16 @@
 // const User = require('../resources/users/user.model');
 // const Task = require('../resources/tasks/task.model');
 
-const dataBase = {
+interface DataBase {
+  users: [];
+  boards: [];
+  tasks: [];
+}
+
+const dataBase: DataBase = {
   users: [],
   boards: [],
   tasks: [],
 };
 
-module.exports = { dataBase };
+export { dataBase };

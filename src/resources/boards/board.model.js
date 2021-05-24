@@ -1,4 +1,5 @@
 const uuid = require('uuid');
+
 /**
  * Board Class | Класс Доски
  * @class
@@ -53,4 +54,4 @@ class Board {
   }
 }
 
-module.exports = Board;
+export default Board;

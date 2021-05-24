@@ -1,15 +1,16 @@
-const express = require('express');
-const swaggerUI = require('swagger-ui-express');
-const path = require('path');
-const YAML = require('yamljs');
+import express from 'express';
+import swaggerUI from 'swagger-ui-express';
+import path from 'path';
+import YAML from 'yamljs';
+
 const usersRouter = require('./resources/users/user.router');
 const boardsRouter = require('./resources/boards/board.router');
 const tasksRouter = require('./resources/tasks/task.router');
-const {
+import {
   logErrors,
   clientErrorHandler,
   errorHandler,
-} = require('./common/errorHadlers');
+} from './common/errorHadlers';
 
 const app = express();
 const swaggerDocument = YAML.load(path.join(__dirname, '../doc/api.yaml'));
@@ -34,4 +35,5 @@ app.use(logErrors);
 app.use(clientErrorHandler);
 app.use(errorHandler);
 
-module.exports = app;
+// module.exports = app;
+export default app;

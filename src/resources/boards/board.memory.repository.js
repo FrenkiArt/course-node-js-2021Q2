@@ -1,4 +1,4 @@
-const { dataBase } = require('../../common/inMemoryDb.js');
+import dataBase from '../../common/inMemoryDb.ts';
 
 /**
  * This function returns an array of "Boards".
@@ -82,7 +82,7 @@ const deleteBoard = async (boardId) => {
   dataBase.tasks = newDbTasks;
 };
 
-module.exports = {
+export default {
   getAll,
   addBoard,
   updateBoard,

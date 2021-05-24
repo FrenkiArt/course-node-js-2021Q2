@@ -1,13 +1,20 @@
+import { ErrorHandler, Request, Response, NextFunction } from 'express';
+
 /**
  * Error logging function
  * Функция логгирования ошибок
  * @param {Object} err - error object | Объект ошибки
  * @param {Object} req - request object | Объект запроса
  * @param {Object} res - response object | Объект ответа
- * @param {*} next - Transfer control to the next function | Передача
+ * @param {Function} next() - Transfer control to the next function | Передача
  * управления следующей функции
  */
-function logErrors(err, req, res, next) {
+function logErrors(
+  err: ErrorHandler,
+  req: Request,
+  res: Response,
+  next: NextFunction
+) {
   console.error(err.stack);
   next(err);
 }
@@ -18,7 +25,7 @@ function logErrors(err, req, res, next) {
  * @param {Object} err - error object | Объект ошибки
  * @param {Object} req - request object | Объект запроса
  * @param {Object} res - response object | Объект ответа
- * @param {*} next - Transfer control to the next function | Передача
+ * @param {Function} next() - Transfer control to the next function | Передача
  * управления следующей функции
  */
 function clientErrorHandler(err, req, res, next) {
@@ -47,4 +54,5 @@ function errorHandler(err, req, res, next) {
   res.render('error', { error: err });
 }
 
-module.exports = { logErrors, clientErrorHandler, errorHandler };
+// module.exports = { logErrors, clientErrorHandler, errorHandler };
+export { logErrors, clientErrorHandler, errorHandler };
