@@ -1,12 +1,17 @@
 const uuid = require('uuid');
 
+/**
+ * User Class | Класс Пользователя
+ * @class
+ */
 class User {
   /**
+   * This class creates an instance of the user.
    * Этот класс создаёт экземпляр пользователя.
-   * @param {string} id - ID пользователя.
-   * @param {string} name - Имя пользователя.
-   * @param {string} login - Логин пользователя.
-   * @param {string} password - Пароль пользователя.
+   * @param {string} id - User ID.| ID пользователя.
+   * @param {string} name - The user name.| Имя пользователя.
+   * @param {string} login - The user's username.| Логин пользователя.
+   * @param {string} password - User Password.| Пароль пользователя.
    */
   constructor({
     id = uuid.v4(),
@@ -21,9 +26,11 @@ class User {
   }
 
   /**
+   * This function returns the user object cleared of the password.
    * Эта функция возвращает объект пользователя очищенный от пароля.
-   * @param {object} user Объект пользователя.
-   * @returns {object} Очищенный от пароля объект пользователя
+   * @param {object} user - User object.| Объект пользователя.
+   * @return {object} - Password-cleared user object | Очищенный
+   * от пароля объект пользователя
    */
   static toResponse(user) {
     const { id, name, login } = user;
@@ -31,9 +38,10 @@ class User {
   }
 
   /**
+   * This function returns the ID of the passed user.
    * Эта функция возвращает ID переданного пользователя.
-   * @param {object} user Объект пользователя.
-   * @returns {string} ID пользователя.
+   * @param {object} user - User object.| Объект пользователя.
+   * @return {string} - User ID.| ID пользователя.
    */
   static getId(user) {
     const { id } = user;
