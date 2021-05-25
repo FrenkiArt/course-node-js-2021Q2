@@ -1,4 +1,4 @@
-import { ErrorHandler, Request, Response, NextFunction } from 'express';
+import { ErrorRequestHandler, Request, Response, NextFunction } from 'express';
 
 /**
  * Error logging function
@@ -10,12 +10,12 @@ import { ErrorHandler, Request, Response, NextFunction } from 'express';
  * управления следующей функции
  */
 function logErrors(
-  err: ErrorHandler,
+  err: ErrorRequestHandler,
   req: Request,
   res: Response,
   next: NextFunction
 ) {
-  console.error(err.stack);
+  console.error(err);
   next(err);
 }
 

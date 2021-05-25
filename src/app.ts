@@ -3,9 +3,15 @@ import swaggerUI from 'swagger-ui-express';
 import path from 'path';
 import YAML from 'yamljs';
 
-const usersRouter = require('./resources/users/user.router');
-const boardsRouter = require('./resources/boards/board.router');
-const tasksRouter = require('./resources/tasks/task.router');
+// const usersRouter = require('./resources/users/user.router');
+import usersRouter from './resources/users/user.router';
+
+// const boardsRouter = require('./resources/boards/board.router');
+import boardsRouter from './resources/boards/board.router';
+
+// const tasksRouter = require('./resources/tasks/task.router');
+import tasksRouter from './resources/tasks/task.router';
+
 import {
   logErrors,
   clientErrorHandler,

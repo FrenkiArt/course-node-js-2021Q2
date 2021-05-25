@@ -1,10 +1,21 @@
 import uuid from 'uuid';
 
+interface IUser {
+  id: string;
+  name: string;
+  login: string;
+  password: string;
+}
+
 /**
  * User Class | Класс Пользователя
  * @class
  */
-class User {
+class User implements IUser {
+  id: string;
+  name: string;
+  login: string;
+  password: string;
   /**
    * This class creates an instance of the user.
    * Этот класс создаёт экземпляр пользователя.
@@ -32,7 +43,7 @@ class User {
    * @return {object} - Password-cleared user object | Очищенный
    * от пароля объект пользователя
    */
-  static toResponse(user) {
+  static toResponse(user: User) {
     const { id, name, login } = user;
     return { id, name, login };
   }
@@ -43,7 +54,7 @@ class User {
    * @param {object} user - User object.| Объект пользователя.
    * @return {string} - User ID.| ID пользователя.
    */
-  static getId(user) {
+  static getId(user: { id: string }) {
     const { id } = user;
     return { id };
   }

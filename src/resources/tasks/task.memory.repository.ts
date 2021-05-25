@@ -1,15 +1,16 @@
-import dataBase from '../../common/inMemoryDb.ts';
+import { dataBase } from '../../common/inMemoryDb';
+import Task from './task.model';
 
 /**
  * This function returns an array of tasks for a specific board.
  * Эта функция возвращает массив задач конкретной доски.
- * @param {string} boardId - Board ID.| ID доски.
+ * @param {string | undefined} boardId - Board ID.| ID доски.
  * @return {array} Associative array of tasks for a specific board.|
  * Ассоциативный массив задач конкретной доски.
  */
-const getAll = async (boardId) => {
+const getAll = async (boardId: string | undefined) => {
   const tasksByBoardId = dataBase.tasks.filter(
-    (task) => task.boardId === boardId
+    (task: { boardId: string | undefined }) => task.boardId === boardId
   );
 
   return tasksByBoardId;
@@ -18,10 +19,12 @@ const getAll = async (boardId) => {
 /**
  * This function deletes all tasks by the passed board ID.
  * Эта функция удаляет все задачи по переданному ID доски.
- * @param {string} boardId - Board ID.| ID доски.
+ * @param {string | undefined} boardId - Board ID.| ID доски.
  */
-const deleteAllTasksByBoardId = async (boardId) => {
-  dataBase.tasks = dataBase.tasks.filter((task) => task.boardId !== boardId);
+const deleteAllTasksByBoardId = async (boardId: string | undefined) => {
+  dataBase.tasks = dataBase.tasks.filter(
+    (task: Task) => task.boardId !== boardId
+  );
 };
 
 /**
@@ -30,9 +33,9 @@ const deleteAllTasksByBoardId = async (boardId) => {
  * Эта функция заменяет у задач userId на null по переданному userId.
  * By issuing a deletion.
  * Эмитируя удаление.
- * @param {string} userId - User ID.| ID пользователя.
+ * @param {string | undefined} userId - User ID.| ID пользователя.
  */
-const deleteUserIdFromAllHisTasks = async (userId) => {
+const deleteUserIdFromAllHisTasks = async (userId: string | undefined) => {
   dataBase.tasks.forEach((task) => {
     if (task.userId === userId) {
       task.userId = null;
@@ -45,11 +48,14 @@ const deleteUserIdFromAllHisTasks = async (userId) => {
  * Эта функция возвращает задачу по ID задачи и ID доски.
  * @param {object} args - The object of the arguments to be passed.|
  * Объект передаваемых аргументов.
- * @param {string} taskId - Task ID.| ID задачи.
- * @param {string} boardId - Board ID.| ID доски.
+ * @param {string | undefined} taskId - Task ID.| ID задачи.
+ * @param {string | undefined} boardId - Board ID.| ID доски.
  * @return {object} The task object.| Объект задачи.
  */
-const getById = async (args) =>
+const getById = async (args: {
+  taskId: string | undefined;
+  boardId: string | undefined;
+}) =>
   dataBase.tasks.filter(
     (task) => task.id === args.taskId && task.boardId === args.boardId
   )[0];
@@ -59,7 +65,7 @@ const getById = async (args) =>
  * Эта функция добавляет в базу новую задачу.
  * @param {object} newTask The object of the new task.| Объект новой задачи.
  */
-const addNewTask = async (newTask) => {
+const addNewTask = async (newTask: Task) => {
   dataBase.tasks.push(newTask);
 };
 
@@ -69,7 +75,7 @@ const addNewTask = async (newTask) => {
  * @param {object} newTask The object of the new task.| Объект новой задачи.
  * @return {object} The task object.| Объект задачи.
  */
-const createTask = async (newTask) => {
+const createTask = async (newTask: Task) => {
   dataBase.tasks.push(newTask);
   return newTask;
 };
@@ -81,40 +87,56 @@ const createTask = async (newTask) => {
  * Объект передаваемых аргументов.
  * @param {string} taskId Task ID.| ID задачи.
  */
-const updateTask = async (taskArgs, taskId) => {
-  dataBase.tasks.forEach((item) => {
-    if (item.id === taskId) {
-      item.title = taskArgs.title;
-      item.order = taskArgs.order;
-      item.description = taskArgs.description;
-      item.userId = taskArgs.userId;
-      item.boardId = taskArgs.boardId;
-      item.columnId = taskArgs.columnId;
+const updateTask = async (
+  taskArgs: {
+    title: string;
+    order: number;
+    description: string;
+    userId: string | null;
+    boardId: string | undefined;
+    columnId: string;
+  },
+  taskId: string | undefined
+) => {
+  dataBase.tasks.forEach(
+    (item: {
+      id: string;
+      title: string;
+      order: number;
+      description: string;
+      userId: string | null;
+      boardId: string | undefined;
+      columnId: string;
+    }) => {
+      if (item.id === taskId) {
+        item.title = taskArgs.title;
+        item.order = taskArgs.order;
+        item.description = taskArgs.description;
+        item.userId = taskArgs.userId;
+        item.boardId = taskArgs.boardId;
+        item.columnId = taskArgs.columnId;
 
+        return item;
+      }
       return item;
     }
-    return item;
-  });
+  );
 };
 
 /**
  * This function removes the user's task from the database by its ID.
  * Эта функция удаляет задачу пользователя из базы данных по её ID.
- * @param {string} taskId Task ID.| ID задачи.
+ * @param {string | undefined} taskId Task ID.| ID задачи.
  */
-const deleteTask = async (taskId) => {
-  let indexNumber = null;
-
-  dataBase.tasks.forEach((item, index) => {
+const deleteTask = async (taskId: string | undefined) => {
+  dataBase.tasks.forEach((item: { id: string }, index: number) => {
     if (item.id === taskId) {
-      indexNumber = index;
+      dataBase.tasks.splice(index, 1);
     }
   });
-
-  dataBase.tasks.splice(indexNumber, 1);
 };
 
-export default {
+export {
   getAll,
   addNewTask,
   updateTask,

@@ -1,20 +1,30 @@
 import uuid from 'uuid';
 
+interface ITask {
+  id: string;
+  title: string;
+  order: number;
+  description: string;
+  userId: string | null;
+  boardId: string | undefined;
+  columnId: string;
+}
+
 /**
  * Task class | Класс задачи
  * @class
  */
-class Task {
+class Task implements ITask {
   /**
    * This class creates an instance of the user's task.
    * Этот класс создаёт экземпляр задачи пользователя.
    * @param {string} id - Task ID.| ID задачи.
    * @param {string} title - The title of the task.| Заголовок задачи.
-   * @param {string} order - The sequential number of the task.| Порядковый
+   * @param {number} order - The sequential number of the task.| Порядковый
    * номер задачи.
    * @param {string} description - Task description.| Описание задачи.
-   * @param {string} userId - User ID.| ID пользователя.
-   * @param {string} boardId - Board ID | ID доски.
+   * @param {string | null} userId - User ID.| ID пользователя.
+   * @param {string | undefined} boardId - Board ID | ID доски.
    * @param {string} columnId - Column ID. ID колонки.
    */
   constructor({
@@ -34,6 +44,13 @@ class Task {
     this.boardId = boardId;
     this.columnId = columnId;
   }
+  id: string;
+  title: string;
+  order: number;
+  description: string;
+  userId: string | null;
+  boardId: string | undefined;
+  columnId: string;
 }
 
 export default Task;

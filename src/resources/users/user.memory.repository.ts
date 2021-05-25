@@ -1,4 +1,5 @@
-import dataBase from '../../common/inMemoryDb.ts';
+import { dataBase } from '../../common/inMemoryDb';
+import User from './user.model';
 
 /**
  * This function returns an array of users.
@@ -16,8 +17,9 @@ const getAll = async () =>
  * @param {string} userId - User ID.| ID пользователя.
  * @return {object} User object.| Объект пользователя.
  */
-const getById = async (userId) =>
-  dataBase.users.filter((el) => el.id === userId)[0];
+const getById = async (userId: string) => {
+  return dataBase.users.filter((el: { id: string }) => el.id === userId)[0];
+};
 
 /**
  * This function adds a new user to the database.
@@ -25,7 +27,7 @@ const getById = async (userId) =>
  * @param {object} newUser The object of the new user.| Объект
  * нового пользователя.
  */
-const addNewUser = async (newUser) => {
+const addNewUser = async (newUser: User) => {
   dataBase.users.push(newUser);
 };
 
@@ -36,7 +38,7 @@ const addNewUser = async (newUser) => {
  * нового пользователя.
  * @return {object} User object. Объект пользователя.
  */
-const createUser = async (newUser) => {
+const createUser = async (newUser: User) => {
   dataBase.users.push(newUser);
   return getById(newUser.id);
 };
@@ -48,8 +50,11 @@ const createUser = async (newUser) => {
  * Объект передаваемых аргументов.
  * @param {string} userId User ID.| Id пользователя.
  */
-const updateUser = async (userArgs, userId) => {
-  dataBase.users.forEach((item) => {
+const updateUser = async (
+  userArgs: { name: string; login: string; password: string },
+  userId: string | null
+) => {
+  dataBase.users.forEach((item: User) => {
     if (item.id === userId) {
       item.name = userArgs.name;
       item.login = userArgs.login;
@@ -66,23 +71,12 @@ const updateUser = async (userArgs, userId) => {
  * Эта функция удаляет пользователя из базы данных.
  * @param {string} userId User ID.| Id пользователя.
  */
-const deleteUser = async (userId) => {
-  let indexNumber = null;
-
-  dataBase.users.forEach((item, index) => {
+const deleteUser = async (userId: string) => {
+  dataBase.users.forEach((item: { id: string }, index) => {
     if (item.id === userId) {
-      indexNumber = index;
+      dataBase.users.splice(index, 1);
     }
   });
-
-  dataBase.users.splice(indexNumber, 1);
 };
 
-export default {
-  getAll,
-  addNewUser,
-  updateUser,
-  deleteUser,
-  getById,
-  createUser,
-};
+export { getAll, addNewUser, updateUser, deleteUser, getById, createUser };

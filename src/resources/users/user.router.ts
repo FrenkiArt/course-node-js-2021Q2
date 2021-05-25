@@ -1,7 +1,7 @@
 import express from 'express';
 import User from './user.model';
-import usersService from './user.service';
-import tasksService from '../tasks/task.service';
+import * as usersService from './user.service';
+import * as tasksService from '../tasks/task.service';
 
 const router = express.Router();
 
@@ -13,14 +13,14 @@ router.route('/').get(async (req, res) => {
 });
 
 router.route('/:userId').get(async (req, res) => {
-  const userById = await usersService.getById(req.params.userId);
+  const userById = await usersService.getById(String(req.params['userId']));
 
   if (userById) {
     res.status(200).json(User.toResponse(userById));
   } else {
     res.status(404).json({
-      id: req.params.userId,
-      error: `Пользователя с Id ${req.params.userId} не найдено.`,
+      id: req.params['userId'],
+      error: `Пользователя с Id ${req.params['userId']} не найдено.`,
     });
   }
 });
@@ -35,19 +35,19 @@ router.route('/:userId').put(async (req, res) => {
 
   let userIsBe = null;
 
-  users.forEach((item) => {
-    if (item.id === req.params.userId) {
+  users.forEach((item: { id: string }) => {
+    if (item.id === req.params['userId']) {
       userIsBe = true;
     }
   });
 
   if (userIsBe) {
-    usersService.updateUser(req.body, req.params.userId);
+    usersService.updateUser(req.body, String(req.params['userId']));
     res.status(200).json(req.body);
   } else {
     res
       .status(404)
-      .json({ error: `Пользователя с Id ${req.params.userId} не найдено.` });
+      .json({ error: `Пользователя с Id ${req.params['userId']} не найдено.` });
   }
 });
 
@@ -56,20 +56,20 @@ router.route('/:userId').delete(async (req, res) => {
 
   let userIsBe = null;
 
-  users.forEach((item) => {
-    if (item.id === req.params.userId) {
+  users.forEach((item: { id: string }) => {
+    if (item.id === req.params['userId']) {
       userIsBe = true;
     }
   });
 
   if (userIsBe) {
-    usersService.deleteUser(req.params.userId);
-    tasksService.deleteUserIdFromAllHisTasks(req.params.userId);
+    usersService.deleteUser(String(req.params['userId']));
+    tasksService.deleteUserIdFromAllHisTasks(req.params['userId']);
     res.status(204).json({ message: 'Объект удалён' });
   } else {
     res
       .status(404)
-      .json({ error: `Пользователя с Id ${req.params.userId} не найдено.` });
+      .json({ error: `Пользователя с Id ${req.params['userId']} не найдено.` });
   }
 });
 
