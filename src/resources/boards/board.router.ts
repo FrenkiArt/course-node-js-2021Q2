@@ -1,24 +1,24 @@
 import express from 'express';
 import Board from './board.model';
-import boardsService from './board.service';
-import tasksService from '../tasks/task.service';
+import * as boardsService from './board.service';
+import * as tasksService from '../tasks/task.service';
 
 const router = express.Router();
 
-router.route('/').get(async (req, res) => {
+router.route('/').get(async (_req, res) => {
   const boards = await boardsService.getAll();
   res.status(200).json(boards);
 });
 
 router.route('/:boardId').get(async (req, res) => {
-  const boardById = await boardsService.getById(req.params.boardId);
+  const boardById = await boardsService.getById(String(req.params['boardId']));
 
   if (boardById) {
     res.status(200).json(boardById);
   } else {
     res.status(404).json({
-      id: req.params.boardId,
-      error: `Доски с Id ${req.params.boardId} не найдено.`,
+      id: req.params['boardId'],
+      error: `Доски с Id ${req.params['boardId']} не найдено.`,
     });
   }
 });
@@ -34,18 +34,18 @@ router.route('/:boardId').put(async (req, res) => {
   let boardIsBe = null;
 
   boards.forEach((item) => {
-    if (item.id === req.params.boardId) {
+    if (item.id === req.params['boardId']) {
       boardIsBe = true;
     }
   });
 
   if (boardIsBe) {
-    boardsService.updateBoard(req.body, req.params.boardId);
+    boardsService.updateBoard(req.body, String(req.params['boardId']));
     res.status(200).json(req.body);
   } else {
     res
       .status(404)
-      .json({ error: `Доски с Id ${req.params.boardId} не найдено.` });
+      .json({ error: `Доски с Id ${req.params['boardId']} не найдено.` });
   }
 });
 
@@ -55,20 +55,20 @@ router.route('/:boardId').delete(async (req, res) => {
   let boardIsBe = null;
 
   boards.forEach((item) => {
-    if (item.id === req.params.boardId) {
+    if (item.id === req.params['boardId']) {
       boardIsBe = true;
     }
   });
 
   if (boardIsBe) {
-    boardsService.deleteBoard(req.params.boardId);
-    tasksService.deleteAllTasksByBoardId(req.params.boardId);
+    boardsService.deleteBoard(String(req.params['boardId']));
+    tasksService.deleteAllTasksByBoardId(String(req.params['boardId']));
 
     res.status(204).json({ message: 'Объект удалён' });
   } else {
     res
       .status(404)
-      .json({ error: `Доски с Id ${req.params.userId} не найдено.` });
+      .json({ error: `Доски с Id ${req.params['userId']} не найдено.` });
   }
 });
 

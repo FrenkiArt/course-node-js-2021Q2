@@ -5,7 +5,7 @@ import * as tasksService from '../tasks/task.service';
 
 const router = express.Router();
 
-router.route('/').get(async (req, res) => {
+router.route('/').get(async (_req, res) => {
   const users = await usersService.getAll();
 
   // map user fields to exclude secret fields like "password"
@@ -26,7 +26,7 @@ router.route('/:userId').get(async (req, res) => {
 });
 
 router.route('/').post(async (req, res) => {
-  const user = await usersService.createUser(new User(req.body));
+  const user: User = await usersService.createUser(req.body);
   res.status(201).json(User.toResponse(user));
 });
 
@@ -35,7 +35,7 @@ router.route('/:userId').put(async (req, res) => {
 
   let userIsBe = null;
 
-  users.forEach((item: { id: string }) => {
+  users.forEach((item: { id: string | null }) => {
     if (item.id === req.params['userId']) {
       userIsBe = true;
     }
@@ -56,7 +56,7 @@ router.route('/:userId').delete(async (req, res) => {
 
   let userIsBe = null;
 
-  users.forEach((item: { id: string }) => {
+  users.forEach((item: { id: string | null }) => {
     if (item.id === req.params['userId']) {
       userIsBe = true;
     }
@@ -64,7 +64,7 @@ router.route('/:userId').delete(async (req, res) => {
 
   if (userIsBe) {
     usersService.deleteUser(String(req.params['userId']));
-    tasksService.deleteUserIdFromAllHisTasks(req.params['userId']);
+    tasksService.deleteUserIdFromAllHisTasks(String(req.params['userId']));
     res.status(204).json({ message: 'Объект удалён' });
   } else {
     res

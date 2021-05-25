@@ -1,4 +1,6 @@
-import dataBase from '../../common/inMemoryDb.ts';
+import { dataBase } from '../../common/inMemoryDb';
+import Task from '../tasks/task.model';
+import Board from './board.model';
 
 /**
  * This function returns an array of "Boards".
@@ -11,28 +13,29 @@ const getAll = async () => dataBase.boards;
  * This function returns the board by ID.
  * Эта функция возвращает доску по ID.
  * @param {string} boardId - Board ID.| ID доски.
- * @return {object} Board object.| Объект доски.
+ * @return {objecta | Board} Board object.| Объект доски.
  */
-const getById = async (boardId) =>
-  dataBase.boards.filter((el) => el.id === boardId)[0];
+const getById = async (boardId: string) => {
+  return dataBase.boards.filter((el) => el.id === boardId)[0];
+};
 
 /**
  * This function adds a board to the database.
  * Эта функция добавляет в базу доску.
- * @param {object} board The user's board object.| Объект доски пользователя.
+ * @param {object | Board} board The user's board object.| Объект доски пользователя.
  */
-const addBoard = async (board) => {
+const addBoard = async (board: Board) => {
   dataBase.boards.push(board);
 };
 
 /**
  * This function creates a new user board and adds it to the database.
  * Эта функция создания новой доски пользователя и добавления её в базу.
- * @param {object} newBoard The object of the user's new board.| Объект
+ * @param {object | Board} newBoard The object of the user's new board.| Объект
  * новой доски пользователя.
- * @return {object} Board object.| Объект доски.
+ * @return {object | Board} Board object.| Объект доски.
  */
-const createBoard = async (newBoard) => {
+const createBoard = async (newBoard: Board) => {
   dataBase.boards.push(newBoard);
   return getById(newBoard.id);
 };
@@ -44,7 +47,10 @@ const createBoard = async (newBoard) => {
  * Объект передаваемых аргументов.
  * @param {string} boardId Board ID.| Id доски.
  */
-const updateBoard = async (boardArgs, boardId) => {
+const updateBoard = async (
+  boardArgs: { title: string; columns: Array<object> },
+  boardId: string
+) => {
   dataBase.boards.forEach((item) => {
     if (item.id === boardId) {
       item.title = boardArgs.title;
@@ -61,17 +67,14 @@ const updateBoard = async (boardArgs, boardId) => {
  * Эта функция удаляет доску пользователя из базы данных.
  * @param {string} boardId Board ID.| Id доски.
  */
-const deleteBoard = async (boardId) => {
-  let indexBoardNumber = null;
-  const newDbTasks = [];
+const deleteBoard = async (boardId: string) => {
+  const newDbTasks: Task[] = [];
 
   dataBase.boards.forEach((item, index) => {
     if (item.id === boardId) {
-      indexBoardNumber = index;
+      dataBase.boards.splice(index, 1);
     }
   });
-
-  dataBase.boards.splice(indexBoardNumber, 1);
 
   dataBase.tasks.forEach((item) => {
     if (item.boardId !== boardId) {
@@ -82,11 +85,4 @@ const deleteBoard = async (boardId) => {
   dataBase.tasks = newDbTasks;
 };
 
-export default {
-  getAll,
-  addBoard,
-  updateBoard,
-  deleteBoard,
-  getById,
-  createBoard,
-};
+export { getAll, addBoard, updateBoard, deleteBoard, getById, createBoard };

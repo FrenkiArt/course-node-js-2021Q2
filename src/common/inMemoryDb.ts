@@ -1,7 +1,4 @@
-// const Board = require('../resources/boards/board.model');
-// const User = require('../resources/users/user.model');
-// const Task = require('../resources/tasks/task.model');
-
+import Board from '../resources/boards/board.model';
 import Task from '../resources/tasks/task.model';
 import User from '../resources/users/user.model';
 

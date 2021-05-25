@@ -1,15 +1,23 @@
 import uuid from 'uuid';
 
+interface IBoard {
+  id: string;
+  columnsCounter: number;
+  title: string;
+  userId: string | null;
+  columns: Array<object>;
+}
+
 /**
  * Board Class | Класс Доски
  * @class
  */
-class Board {
+class Board implements IBoard {
   /**
    * This class creates an instance of the user's whiteboard.
    * Этот класс создаёт экземпляр доски пользователя.
    * @param {string} id - ID of the user's board.| ID доски пользователя.
-   * @param {string} columnsCounter - Column counter.| Счётчик колонок.
+   * @param { number} columnsCounter - Column counter.| Счётчик колонок.
    * @param {string} title - The title of the board.| Заголовок доски.
    * @param {string} userId - User ID.| ID пользователя.
    * @param {string} columns - Associative array of columns.| Ассоциативный
@@ -52,6 +60,11 @@ class Board {
       return item;
     });
   }
+  id: string;
+  columnsCounter: number;
+  title: string;
+  userId: string | null;
+  columns: object[];
 }
 
 export default Board;

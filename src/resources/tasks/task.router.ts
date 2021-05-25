@@ -5,7 +5,7 @@ import * as tasksService from './task.service';
 const router = express.Router({ mergeParams: true });
 
 router.route('/').get(async (req, res) => {
-  const tasks = await tasksService.getAll(req.params['boardId']);
+  const tasks = await tasksService.getAll(String(req.params['boardId']));
 
   if (tasks.length > 0) {
     res.status(200).json(tasks);
@@ -19,8 +19,8 @@ router.route('/').get(async (req, res) => {
 
 router.route('/:taskId').get(async (req, res) => {
   const taskById = await tasksService.getById({
-    boardId: req.params['boardId'],
-    taskId: req.params['taskId'],
+    boardId: String(req.params['boardId']),
+    taskId: String(req.params['taskId']),
   });
 
   if (taskById) {
@@ -43,7 +43,7 @@ router.route('/').post(async (req, res) => {
 });
 
 router.route('/:taskId').put(async (req, res) => {
-  const tasks = await tasksService.getAll(req.params['boardId']);
+  const tasks = await tasksService.getAll(String(req.params['boardId']));
 
   let taskIsBe = null;
 
@@ -64,7 +64,7 @@ router.route('/:taskId').put(async (req, res) => {
 });
 
 router.route('/:taskId').delete(async (req, res) => {
-  const tasks = await tasksService.getAll(req.params['boardId']);
+  const tasks = await tasksService.getAll(String(req.params['boardId']));
 
   let taskIsBe = null;
 

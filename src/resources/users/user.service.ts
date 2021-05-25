@@ -5,7 +5,7 @@ const getAll = () => usersRepo.getAll();
 const getById = (userId: string) => usersRepo.getById(userId);
 const createUser = (newUser: User) => usersRepo.createUser(newUser);
 const addNewUser = (newUser: User) => usersRepo.addNewUser(newUser);
-const updateUser = (userArgs: object, userId: string) =>
+const updateUser = (userArgs: User, userId: string) =>
   usersRepo.updateUser(userArgs, userId);
 const deleteUser = (userId: string) => usersRepo.deleteUser(userId);
 

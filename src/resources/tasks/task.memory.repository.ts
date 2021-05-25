@@ -8,9 +8,9 @@ import Task from './task.model';
  * @return {array} Associative array of tasks for a specific board.|
  * Ассоциативный массив задач конкретной доски.
  */
-const getAll = async (boardId: string | undefined) => {
+const getAll = async (boardId: string) => {
   const tasksByBoardId = dataBase.tasks.filter(
-    (task: { boardId: string | undefined }) => task.boardId === boardId
+    (task: { boardId: string }) => task.boardId === boardId
   );
 
   return tasksByBoardId;
@@ -21,7 +21,7 @@ const getAll = async (boardId: string | undefined) => {
  * Эта функция удаляет все задачи по переданному ID доски.
  * @param {string | undefined} boardId - Board ID.| ID доски.
  */
-const deleteAllTasksByBoardId = async (boardId: string | undefined) => {
+const deleteAllTasksByBoardId = async (boardId: string) => {
   dataBase.tasks = dataBase.tasks.filter(
     (task: Task) => task.boardId !== boardId
   );
@@ -33,9 +33,9 @@ const deleteAllTasksByBoardId = async (boardId: string | undefined) => {
  * Эта функция заменяет у задач userId на null по переданному userId.
  * By issuing a deletion.
  * Эмитируя удаление.
- * @param {string | undefined} userId - User ID.| ID пользователя.
+ * @param {string} userId - User ID.| ID пользователя.
  */
-const deleteUserIdFromAllHisTasks = async (userId: string | undefined) => {
+const deleteUserIdFromAllHisTasks = async (userId: string) => {
   dataBase.tasks.forEach((task) => {
     if (task.userId === userId) {
       task.userId = null;
@@ -52,10 +52,7 @@ const deleteUserIdFromAllHisTasks = async (userId: string | undefined) => {
  * @param {string | undefined} boardId - Board ID.| ID доски.
  * @return {object} The task object.| Объект задачи.
  */
-const getById = async (args: {
-  taskId: string | undefined;
-  boardId: string | undefined;
-}) =>
+const getById = async (args: { taskId: string | undefined; boardId: string }) =>
   dataBase.tasks.filter(
     (task) => task.id === args.taskId && task.boardId === args.boardId
   )[0];
@@ -92,8 +89,8 @@ const updateTask = async (
     title: string;
     order: number;
     description: string;
-    userId: string | null;
-    boardId: string | undefined;
+    userId: string;
+    boardId: string;
     columnId: string;
   },
   taskId: string | undefined
@@ -105,7 +102,7 @@ const updateTask = async (
       order: number;
       description: string;
       userId: string | null;
-      boardId: string | undefined;
+      boardId: string;
       columnId: string;
     }) => {
       if (item.id === taskId) {

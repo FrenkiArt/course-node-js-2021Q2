@@ -6,7 +6,7 @@ interface ITask {
   order: number;
   description: string;
   userId: string | null;
-  boardId: string | undefined;
+  boardId: string;
   columnId: string;
 }
 
@@ -24,7 +24,7 @@ class Task implements ITask {
    * номер задачи.
    * @param {string} description - Task description.| Описание задачи.
    * @param {string | null} userId - User ID.| ID пользователя.
-   * @param {string | undefined} boardId - Board ID | ID доски.
+   * @param {string} boardId - Board ID | ID доски.
    * @param {string} columnId - Column ID. ID колонки.
    */
   constructor({
@@ -49,7 +49,7 @@ class Task implements ITask {
   order: number;
   description: string;
   userId: string | null;
-  boardId: string | undefined;
+  boardId: string;
   columnId: string;
 }
 

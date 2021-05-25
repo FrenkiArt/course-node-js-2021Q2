@@ -19,7 +19,7 @@ class User implements IUser {
   /**
    * This class creates an instance of the user.
    * Этот класс создаёт экземпляр пользователя.
-   * @param {string} id - User ID.| ID пользователя.
+   * @param {string | null} id - User ID.| ID пользователя.
    * @param {string} name - The user name.| Имя пользователя.
    * @param {string} login - The user's username.| Логин пользователя.
    * @param {string} password - User Password.| Пароль пользователя.
@@ -39,7 +39,7 @@ class User implements IUser {
   /**
    * This function returns the user object cleared of the password.
    * Эта функция возвращает объект пользователя очищенный от пароля.
-   * @param {object} user - User object.| Объект пользователя.
+   * @param {object | User} user - User object.| Объект пользователя.
    * @return {object} - Password-cleared user object | Очищенный
    * от пароля объект пользователя
    */
@@ -51,7 +51,7 @@ class User implements IUser {
   /**
    * This function returns the ID of the passed user.
    * Эта функция возвращает ID переданного пользователя.
-   * @param {object} user - User object.| Объект пользователя.
+   * @param {object | User} user - User object.| Объект пользователя.
    * @return {string} - User ID.| ID пользователя.
    */
   static getId(user: { id: string }) {
