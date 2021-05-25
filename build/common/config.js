@@ -1,5 +1,6 @@
 import * as dotenv from 'dotenv';
-import path from 'path';
+import * as path from 'path';
+import * as process from 'process';
 dotenv.config({
     path: path.join(__dirname, '../../.env'),
 });
