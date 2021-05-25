@@ -1,18 +1,10 @@
 import * as uuid from 'uuid';
 
-interface IBoard {
-  id: string;
-  columnsCounter: number;
-  title: string;
-  userId: string | null;
-  columns: Array<object>;
-}
-
 /**
  * Board Class | Класс Доски
  * @class
  */
-class Board implements IBoard {
+class Board {
   /**
    * This class creates an instance of the user's whiteboard.
    * Этот класс создаёт экземпляр доски пользователя.
@@ -54,22 +46,9 @@ class Board implements IBoard {
       if (!item.id) {
         item.id = uuid.v4();
       }
-
       item.order = ++this.columnsCounter;
-
       return item;
     });
   }
-
-  id: string;
-
-  columnsCounter: number;
-
-  title: string;
-
-  userId: string | null;
-
-  columns: object[];
 }
-
 export default Board;

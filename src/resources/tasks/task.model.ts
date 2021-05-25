@@ -1,4 +1,4 @@
-import uuid from 'uuid';
+import * as uuid from 'uuid';
 
 interface ITask {
   id: string;
@@ -44,12 +44,19 @@ class Task implements ITask {
     this.boardId = boardId;
     this.columnId = columnId;
   }
+
   id: string;
+
   title: string;
+
   order: number;
+
   description: string;
+
   userId: string | null;
+
   boardId: string;
+
   columnId: string;
 }
 

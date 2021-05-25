@@ -1,4 +1,4 @@
-import uuid from 'uuid';
+import * as uuid from 'uuid';
 
 interface IUser {
   id: string;
@@ -13,9 +13,13 @@ interface IUser {
  */
 class User implements IUser {
   id: string;
+
   name: string;
+
   login: string;
+
   password: string;
+
   /**
    * This class creates an instance of the user.
    * Этот класс создаёт экземпляр пользователя.
