@@ -1,4 +1,4 @@
-import express from 'express';
+import * as express from 'express';
 import Task from './task.model';
 import * as tasksService from './task.service';
 const router = express.Router({ mergeParams: true });

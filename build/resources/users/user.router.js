@@ -1,4 +1,4 @@
-import express from 'express';
+import * as express from 'express';
 import User from './user.model';
 import * as usersService from './user.service';
 import * as tasksService from '../tasks/task.service';

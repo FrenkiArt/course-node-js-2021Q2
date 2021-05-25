@@ -1,12 +1,12 @@
-import express from 'express';
-import swaggerUI from 'swagger-ui-express';
-import path from 'path';
-import YAML from 'yamljs';
+import * as express from 'express';
+import * as swaggerUI from 'swagger-ui-express';
+import * as path from 'path';
+import * as YAML from 'yamljs';
 import usersRouter from './resources/users/user.router';
 import boardsRouter from './resources/boards/board.router';
 import tasksRouter from './resources/tasks/task.router';
 import { logErrors, clientErrorHandler, errorHandler, } from './common/errorHadlers';
-const app = express();
+const app = express.default();
 const swaggerDocument = YAML.load(path.join(__dirname, '../doc/api.yaml'));
 app.use(express.json());
 app.use('/doc', swaggerUI.serve, swaggerUI.setup(swaggerDocument));
