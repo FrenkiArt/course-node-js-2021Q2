@@ -2,17 +2,18 @@ import express from 'express';
 import User from './user.model';
 import * as usersService from './user.service';
 import * as tasksService from '../tasks/task.service';
+import { Request, Response } from 'express';
 
 const router = express.Router();
 
-router.route('/').get(async (_req, res) => {
+router.route('/').get(async (_req: Request, res: Response) => {
   const users = await usersService.getAll();
 
   // map user fields to exclude secret fields like "password"
   res.json(users.map(User.toResponse));
 });
 
-router.route('/:userId').get(async (req, res) => {
+router.route('/:userId').get(async (req: Request, res: Response) => {
   const userById = await usersService.getById(String(req.params['userId']));
 
   if (userById) {
@@ -25,12 +26,12 @@ router.route('/:userId').get(async (req, res) => {
   }
 });
 
-router.route('/').post(async (req, res) => {
+router.route('/').post(async (req: Request, res: Response) => {
   const user: User = await usersService.createUser(req.body);
   res.status(201).json(User.toResponse(user));
 });
 
-router.route('/:userId').put(async (req, res) => {
+router.route('/:userId').put(async (req: Request, res: Response) => {
   const users = await usersService.getAll();
 
   let userIsBe = null;
@@ -51,7 +52,7 @@ router.route('/:userId').put(async (req, res) => {
   }
 });
 
-router.route('/:userId').delete(async (req, res) => {
+router.route('/:userId').delete(async (req: Request, res: Response) => {
   const users = await usersService.getAll();
 
   let userIsBe = null;

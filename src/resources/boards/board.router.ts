@@ -2,15 +2,16 @@ import express from 'express';
 import Board from './board.model';
 import * as boardsService from './board.service';
 import * as tasksService from '../tasks/task.service';
+import { Request, Response } from 'express';
 
 const router = express.Router();
 
-router.route('/').get(async (_req, res) => {
+router.route('/').get(async (_req: Request, res: Response) => {
   const boards = await boardsService.getAll();
   res.status(200).json(boards);
 });
 
-router.route('/:boardId').get(async (req, res) => {
+router.route('/:boardId').get(async (req: Request, res: Response) => {
   const boardById = await boardsService.getById(String(req.params['boardId']));
 
   if (boardById) {
@@ -23,12 +24,12 @@ router.route('/:boardId').get(async (req, res) => {
   }
 });
 
-router.route('/').post(async (req, res) => {
+router.route('/').post(async (req: Request, res: Response) => {
   const board = await boardsService.createBoard(new Board(req.body));
   res.status(201).json(board);
 });
 
-router.route('/:boardId').put(async (req, res) => {
+router.route('/:boardId').put(async (req: Request, res: Response) => {
   const boards = await boardsService.getAll();
 
   let boardIsBe = null;
@@ -49,7 +50,7 @@ router.route('/:boardId').put(async (req, res) => {
   }
 });
 
-router.route('/:boardId').delete(async (req, res) => {
+router.route('/:boardId').delete(async (req: Request, res: Response) => {
   const boards = await boardsService.getAll();
 
   let boardIsBe = null;
