@@ -1,3 +1,6 @@
+"use strict";
+Object.defineProperty(exports, "__esModule", { value: true });
+exports.errorHandler = exports.clientErrorHandler = exports.logErrors = void 0;
 /**
  * Error logging function
  * Функция логгирования ошибок
@@ -11,6 +14,7 @@ function logErrors(err, _req, _res, next) {
     console.error(err);
     next(err);
 }
+exports.logErrors = logErrors;
 /**
  * Error logging function
  * Функция логгирования ошибок
@@ -28,6 +32,7 @@ function clientErrorHandler(err, req, res, next) {
         next(err);
     }
 }
+exports.clientErrorHandler = clientErrorHandler;
 /**
  * Error logging function
  * Функция логгирования ошибок
@@ -45,5 +50,4 @@ function errorHandler(err, _req, res, next) {
     res.status(500);
     res.render('error', { error: err });
 }
-// module.exports = { logErrors, clientErrorHandler, errorHandler };
-export { logErrors, clientErrorHandler, errorHandler };
+exports.errorHandler = errorHandler;

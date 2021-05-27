@@ -1,5 +1,11 @@
-import { dataBase } from '../../common/inMemoryDb';
-import User from './user.model';
+"use strict";
+var __importDefault = (this && this.__importDefault) || function (mod) {
+    return (mod && mod.__esModule) ? mod : { "default": mod };
+};
+Object.defineProperty(exports, "__esModule", { value: true });
+exports.createUser = exports.getById = exports.deleteUser = exports.updateUser = exports.addNewUser = exports.getAll = void 0;
+const inMemoryDb_1 = require("../../common/inMemoryDb");
+const user_model_1 = __importDefault(require("./user.model"));
 /**
  * This function returns an array of users.
  * Эта функция возвращает массив пользователей.
@@ -8,14 +14,16 @@ import User from './user.model';
  */
 const getAll = async () => 
 // [];
-dataBase.users;
+inMemoryDb_1.dataBase.users;
+exports.getAll = getAll;
 /**
  * This function returns the user by ID.
  * Эта функция возвращает пользователя по ID.
  * @param {string} userId - User ID.| ID пользователя.
  * @return {object} User object.| Объект пользователя.
  */
-const getById = async (userId) => dataBase.users.filter((user) => user.id === userId)[0];
+const getById = async (userId) => inMemoryDb_1.dataBase.users.filter((user) => user.id === userId)[0];
+exports.getById = getById;
 /**
  * This function adds a new user to the database.
  * Эта функция добавляет в базу нового пользователя.
@@ -23,8 +31,9 @@ const getById = async (userId) => dataBase.users.filter((user) => user.id === us
  * нового пользователя.
  */
 const addNewUser = async (newUser) => {
-    dataBase.users.push(newUser);
+    inMemoryDb_1.dataBase.users.push(newUser);
 };
+exports.addNewUser = addNewUser;
 /**
  * This function creates a new user and adds it to the database.
  * Эта функция создания нового пользователя и добавления его в базу.
@@ -34,10 +43,11 @@ const addNewUser = async (newUser) => {
  * @return {object} User object. Объект пользователя.
  */
 const createUser = async (reqBody) => {
-    const newUser = new User(reqBody);
-    dataBase.users.push(newUser);
+    const newUser = new user_model_1.default(reqBody);
+    inMemoryDb_1.dataBase.users.push(newUser);
     return newUser;
 };
+exports.createUser = createUser;
 /**
  * This function updates the user's data in the database.
  * Эта функция обновляет данные пользователя в базе данных.
@@ -46,7 +56,7 @@ const createUser = async (reqBody) => {
  * @param {string} userId User ID.| Id пользователя.
  */
 const updateUser = async (userArgs, userId) => {
-    dataBase.users.forEach((item) => {
+    inMemoryDb_1.dataBase.users.forEach((item) => {
         if (item.id === userId) {
             item.name = userArgs.name;
             item.login = userArgs.login;
@@ -56,16 +66,17 @@ const updateUser = async (userArgs, userId) => {
         return item;
     });
 };
+exports.updateUser = updateUser;
 /**
  * This function removes the user from the database.
  * Эта функция удаляет пользователя из базы данных.
  * @param {string} userId User ID.| Id пользователя.
  */
 const deleteUser = async (userId) => {
-    dataBase.users.forEach((item, index) => {
+    inMemoryDb_1.dataBase.users.forEach((item, index) => {
         if (item.id === userId) {
-            dataBase.users.splice(index, 1);
+            inMemoryDb_1.dataBase.users.splice(index, 1);
         }
     });
 };
-export { getAll, addNewUser, updateUser, deleteUser, getById, createUser };
+exports.deleteUser = deleteUser;

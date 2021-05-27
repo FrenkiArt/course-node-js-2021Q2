@@ -1,4 +1,7 @@
-import { dataBase } from '../../common/inMemoryDb';
+"use strict";
+Object.defineProperty(exports, "__esModule", { value: true });
+exports.deleteUserIdFromAllHisTasks = exports.deleteAllTasksByBoardId = exports.createTask = exports.getById = exports.deleteTask = exports.updateTask = exports.addNewTask = exports.getAll = void 0;
+const inMemoryDb_1 = require("../../common/inMemoryDb");
 /**
  * This function returns an array of tasks for a specific board.
  * Эта функция возвращает массив задач конкретной доски.
@@ -7,17 +10,19 @@ import { dataBase } from '../../common/inMemoryDb';
  * Ассоциативный массив задач конкретной доски.
  */
 const getAll = async (boardId) => {
-    const tasksByBoardId = dataBase.tasks.filter((task) => task.boardId === boardId);
+    const tasksByBoardId = inMemoryDb_1.dataBase.tasks.filter((task) => task.boardId === boardId);
     return tasksByBoardId;
 };
+exports.getAll = getAll;
 /**
  * This function deletes all tasks by the passed board ID.
  * Эта функция удаляет все задачи по переданному ID доски.
  * @param {string | undefined} boardId - Board ID.| ID доски.
  */
 const deleteAllTasksByBoardId = async (boardId) => {
-    dataBase.tasks = dataBase.tasks.filter((task) => task.boardId !== boardId);
+    inMemoryDb_1.dataBase.tasks = inMemoryDb_1.dataBase.tasks.filter((task) => task.boardId !== boardId);
 };
+exports.deleteAllTasksByBoardId = deleteAllTasksByBoardId;
 /**
  * This function replaces the user Id for tasks with null based
  * on the passed userId.
@@ -27,12 +32,13 @@ const deleteAllTasksByBoardId = async (boardId) => {
  * @param {string} userId - User ID.| ID пользователя.
  */
 const deleteUserIdFromAllHisTasks = async (userId) => {
-    dataBase.tasks.forEach((task) => {
+    inMemoryDb_1.dataBase.tasks.forEach((task) => {
         if (task.userId === userId) {
             task.userId = null;
         }
     });
 };
+exports.deleteUserIdFromAllHisTasks = deleteUserIdFromAllHisTasks;
 /**
  * This function returns the task by the task ID and the board ID.
  * Эта функция возвращает задачу по ID задачи и ID доски.
@@ -42,15 +48,17 @@ const deleteUserIdFromAllHisTasks = async (userId) => {
  * @param {string | undefined} boardId - Board ID.| ID доски.
  * @return {object} The task object.| Объект задачи.
  */
-const getById = async (args) => dataBase.tasks.filter((task) => task.id === args.taskId && task.boardId === args.boardId)[0];
+const getById = async (args) => inMemoryDb_1.dataBase.tasks.filter((task) => task.id === args.taskId && task.boardId === args.boardId)[0];
+exports.getById = getById;
 /**
  * This function adds a new task to the database.
  * Эта функция добавляет в базу новую задачу.
  * @param {object} newTask The object of the new task.| Объект новой задачи.
  */
 const addNewTask = async (newTask) => {
-    dataBase.tasks.push(newTask);
+    inMemoryDb_1.dataBase.tasks.push(newTask);
 };
+exports.addNewTask = addNewTask;
 /**
  * This function creates a new task and adds it to the database.
  * Эта функция создания новой задачи и добавления её в базу.
@@ -58,9 +66,10 @@ const addNewTask = async (newTask) => {
  * @return {object} The task object.| Объект задачи.
  */
 const createTask = async (newTask) => {
-    dataBase.tasks.push(newTask);
+    inMemoryDb_1.dataBase.tasks.push(newTask);
     return newTask;
 };
+exports.createTask = createTask;
 /**
  * This function updates the user's task data in the database by ID.
  * Эта функция обновляет данные задачи пользователя в базе данных по ID.
@@ -69,7 +78,7 @@ const createTask = async (newTask) => {
  * @param {string} taskId Task ID.| ID задачи.
  */
 const updateTask = async (taskArgs, taskId) => {
-    dataBase.tasks.forEach((item) => {
+    inMemoryDb_1.dataBase.tasks.forEach((item) => {
         if (item.id === taskId) {
             item.title = taskArgs.title;
             item.order = taskArgs.order;
@@ -82,16 +91,17 @@ const updateTask = async (taskArgs, taskId) => {
         return item;
     });
 };
+exports.updateTask = updateTask;
 /**
  * This function removes the user's task from the database by its ID.
  * Эта функция удаляет задачу пользователя из базы данных по её ID.
  * @param {string | undefined} taskId Task ID.| ID задачи.
  */
 const deleteTask = async (taskId) => {
-    dataBase.tasks.forEach((item, index) => {
+    inMemoryDb_1.dataBase.tasks.forEach((item, index) => {
         if (item.id === taskId) {
-            dataBase.tasks.splice(index, 1);
+            inMemoryDb_1.dataBase.tasks.splice(index, 1);
         }
     });
 };
-export { getAll, addNewTask, updateTask, deleteTask, getById, createTask, deleteAllTasksByBoardId, deleteUserIdFromAllHisTasks, };
+exports.deleteTask = deleteTask;

@@ -1,17 +1,22 @@
-import { dataBase } from '../../common/inMemoryDb';
+"use strict";
+Object.defineProperty(exports, "__esModule", { value: true });
+exports.createBoard = exports.getById = exports.deleteBoard = exports.updateBoard = exports.addBoard = exports.getAll = void 0;
+const inMemoryDb_1 = require("../../common/inMemoryDb");
 /**
  * This function returns an array of "Boards".
  * Эта функция возвращает массив "Досок".
  * @return {array} Associative array of "Boards".| Ассоциативный массив "Досок".
  */
-const getAll = async () => dataBase.boards;
+const getAll = async () => inMemoryDb_1.dataBase.boards;
+exports.getAll = getAll;
 /**
  * This function returns the board by ID.
  * Эта функция возвращает доску по ID.
  * @param {string} boardId - Board ID.| ID доски.
  * @return {objecta | Board} Board object.| Объект доски.
  */
-const getById = async (boardId) => dataBase.boards.filter((el) => el.id === boardId)[0];
+const getById = async (boardId) => inMemoryDb_1.dataBase.boards.filter((el) => el.id === boardId)[0];
+exports.getById = getById;
 /**
  * This function adds a board to the database.
  * Эта функция добавляет в базу доску.
@@ -19,8 +24,9 @@ const getById = async (boardId) => dataBase.boards.filter((el) => el.id === boar
  * Объект доски пользователя.
  */
 const addBoard = async (board) => {
-    dataBase.boards.push(board);
+    inMemoryDb_1.dataBase.boards.push(board);
 };
+exports.addBoard = addBoard;
 /**
  * This function creates a new user board and adds it to the database.
  * Эта функция создания новой доски пользователя и добавления её в базу.
@@ -29,9 +35,10 @@ const addBoard = async (board) => {
  * @return {object | Board} Board object.| Объект доски.
  */
 const createBoard = async (newBoard) => {
-    dataBase.boards.push(newBoard);
+    inMemoryDb_1.dataBase.boards.push(newBoard);
     return getById(newBoard.id);
 };
+exports.createBoard = createBoard;
 /**
  * This function updates the user's board data in the database.
  * Эта функция обновляет данные доски пользователя в базе данных.
@@ -40,7 +47,7 @@ const createBoard = async (newBoard) => {
  * @param {string} boardId Board ID.| Id доски.
  */
 const updateBoard = async (boardArgs, boardId) => {
-    dataBase.boards.forEach((item) => {
+    inMemoryDb_1.dataBase.boards.forEach((item) => {
         if (item.id === boardId) {
             item.title = boardArgs.title;
             item.columns = boardArgs.columns;
@@ -49,6 +56,7 @@ const updateBoard = async (boardArgs, boardId) => {
         return item;
     });
 };
+exports.updateBoard = updateBoard;
 /**
  * This function removes the user's board from the database.
  * Эта функция удаляет доску пользователя из базы данных.
@@ -56,16 +64,16 @@ const updateBoard = async (boardArgs, boardId) => {
  */
 const deleteBoard = async (boardId) => {
     const newDbTasks = [];
-    dataBase.boards.forEach((item, index) => {
+    inMemoryDb_1.dataBase.boards.forEach((item, index) => {
         if (item.id === boardId) {
-            dataBase.boards.splice(index, 1);
+            inMemoryDb_1.dataBase.boards.splice(index, 1);
         }
     });
-    dataBase.tasks.forEach((item) => {
+    inMemoryDb_1.dataBase.tasks.forEach((item) => {
         if (item.boardId !== boardId) {
             newDbTasks.push(item);
         }
     });
-    dataBase.tasks = newDbTasks;
+    inMemoryDb_1.dataBase.tasks = newDbTasks;
 };
-export { getAll, addBoard, updateBoard, deleteBoard, getById, createBoard };
+exports.deleteBoard = deleteBoard;
