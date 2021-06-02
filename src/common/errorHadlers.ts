@@ -41,9 +41,9 @@ function logEverything(req: Request, res: Response, next: NextFunction) {
       res.statusCode
     } \n`;
 
-    fs.appendFile('log.txt', textRow, (err) => {
-      if (err) {
-        throw err;
+    fs.appendFile('log.txt', textRow, (error) => {
+      if (error) {
+        throw error;
       }
     });
   });
@@ -76,6 +76,14 @@ function errorHandler(
   console.log('err.statusCode', err.statusCode);
   console.log('err.status', err.status);
   console.log('err.message', err.message);
+
+  const textRow = `${err.statusCode} ${err.status} ${err.message} \n`;
+
+  fs.appendFile('errors-log.txt', textRow, (error) => {
+    if (error) {
+      throw error;
+    }
+  });
 
   res.status(err.statusCode).send({
     status: err.status,
