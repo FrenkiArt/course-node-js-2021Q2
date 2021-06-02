@@ -1,5 +1,16 @@
-import { ErrorRequestHandler, Request, Response, NextFunction } from 'express';
+import { Request, Response, NextFunction } from 'express';
 import { finished } from 'stream';
+
+/**
+ * Обработка не найденной страницы 404
+ * @param {Request} _req - request object | Объект запроса
+ * @param {Response} res - response object | Объект ответа
+ */
+function page404(_req: Request, res: Response) {
+  res
+    .status(404)
+    .json({ error: `Далеко собрался? Такой страницы не найдено!` });
+}
 
 /**
  * Logging function
@@ -25,62 +36,38 @@ function logEverything(req: Request, res: Response, next: NextFunction) {
   });
 }
 
-/**
- * Error logging function
- * Функция логгирования ошибок
- * @param {Object} err - error object | Объект ошибки
- * @param {Object} req - request object | Объект запроса
- * @param {Object} res - response object | Объект ответа
- * @param {Function} next() - Transfer control to the next function | Передача
- * управления следующей функции
- */
-function clientErrorHandler(
-  err: ErrorRequestHandler,
-  req: Request,
-  res: Response,
-  next: NextFunction
-) {
-  if (req.xhr) {
-    res.status(500).send({ error: 'Something failed!' });
-  } else {
-    next(err);
-  }
+interface globalError extends Error {
+  statusCode?: number;
+  status?: string;
 }
 
 /**
  * Error logging function
  * Функция логгирования ошибок
- * @param {Object} err - error object | Объект ошибки
- * @param {Object} _req - request object | Объект запроса
- * @param {Object} res - response object | Объект ответа
- * @param {Function} next() - Transfer control to the next function | Передача
+ * @param {Error} err - error object | Объект ошибки
+ * @param {Request} _req - request object | Объект запроса
+ * @param {Response} res - response object | Объект ответа
+ * @param {NextFunction} _next() - Transfer control to the next function | Передача
  * управления следующей функции
- * @return {Void}
+ *  //@return {next} next function
  */
 function errorHandler(
-  err: ErrorRequestHandler,
+  err: globalError,
   _req: Request,
   res: Response,
-  next: NextFunction
+  _next: NextFunction
 ) {
-  if (res.headersSent) {
-    return next(err);
-  }
-  res.status(500);
-  res.render('error', { error: err });
-} /*
-function newErrorHandler(
-  err: Error,
-  req: Request,
-  res: Response,
-  next: NextFunction
-) {} */ // module.exports = { logErrors, clientErrorHandler, errorHandler };
+  err.statusCode = err.statusCode || 500;
+  err.status = err.status || 'Error';
 
-/**
- * Обработчик ошибок
- * @param {Object} err - error object | Объект ошибки
- * @param {Object} req - request object | Объект запроса
- * @param {Object} res - response object | Объект ответа
- * @param {Function} next() - Transfer control to the next function | Передача
- * управления следующей функции
- */ export { logEverything, clientErrorHandler, errorHandler };
+  console.log('err.statusCode', err.statusCode);
+  console.log('err.status', err.status);
+  console.log('err.message', err.message);
+
+  res.status(err.statusCode).send({
+    status: err.status,
+    message: err.message,
+  });
+}
+
+export { logEverything, errorHandler, page404 };
