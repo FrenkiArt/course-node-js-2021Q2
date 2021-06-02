@@ -1,5 +1,6 @@
 import { Request, Response, NextFunction } from 'express';
 import { finished } from 'stream';
+import fs from 'fs';
 
 /**
  * Обработка не найденной страницы 404
@@ -33,6 +34,18 @@ function logEverything(req: Request, res: Response, next: NextFunction) {
     console.log('params', req.params);
     console.log('body', req.body);
     console.log('status code', res.statusCode);
+
+    const textRow = `${logStartTime} ${req.protocol} ${req.hostname} ${
+      req.originalUrl
+    } ${JSON.stringify(req.params)} ${JSON.stringify(req.body)} ${
+      res.statusCode
+    } \n`;
+
+    fs.appendFile('log.txt', textRow, (err) => {
+      if (err) {
+        throw err;
+      }
+    });
   });
 }
 

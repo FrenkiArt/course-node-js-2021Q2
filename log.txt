@@ -1,0 +1,4 @@
+Wed Jun 02 2021 15:35:08 GMT+0300 (Москва, стандартное время) http localhost /users/234325 {"userId":"234325"} {} 404 
+Wed Jun 02 2021 15:35:26 GMT+0300 (Москва, стандартное время) http localhost /users/234325 {"userId":"234325"} {} 404 
+Wed Jun 02 2021 15:35:32 GMT+0300 (Москва, стандартное время) http localhost / {} {} 200 
+Wed Jun 02 2021 15:35:32 GMT+0300 (Москва, стандартное время) http localhost /favicon.ico {"0":"/favicon.ico"} {} 404 
