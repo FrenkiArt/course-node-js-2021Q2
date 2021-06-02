@@ -4,10 +4,19 @@ import fs from 'fs';
 
 /**
  * Обработка не найденной страницы 404
- * @param {Request} _req - request object | Объект запроса
+ * @param {Request} req - request object | Объект запроса
  * @param {Response} res - response object | Объект ответа
  */
-function page404(_req: Request, res: Response) {
+function page404(req: Request, res: Response) {
+  const textRow = `${req.protocol} ${req.hostname} ${req.originalUrl} \n`;
+
+  console.log('Такой страницы не найдено', textRow);
+  fs.appendFile('error-404-log.txt', textRow, (error) => {
+    if (error) {
+      throw error;
+    }
+  });
+
   res
     .status(404)
     .json({ error: `Далеко собрался? Такой страницы не найдено!` });
@@ -18,8 +27,8 @@ function page404(_req: Request, res: Response) {
  * Функция логгирования всего
  * @param {Request} req - request object | Объект запроса
  * @param {Response} res - response object | Объект ответа
- * @param {NextFunction} next() - Transfer control to the next function | Передача
- * управления следующей функции
+ * @param {NextFunction} next() - Transfer control to the next
+ * function | Передача управления следующей функции
  */
 function logEverything(req: Request, res: Response, next: NextFunction) {
   const logStartTime = new Date();
@@ -60,9 +69,8 @@ interface globalError extends Error {
  * @param {Error} err - error object | Объект ошибки
  * @param {Request} _req - request object | Объект запроса
  * @param {Response} res - response object | Объект ответа
- * @param {NextFunction} _next() - Transfer control to the next function | Передача
- * управления следующей функции
- *  //@return {next} next function
+ * @param {NextFunction} _next() - Transfer control to the next
+ * function | Передача управления следующей функции
  */
 function errorHandler(
   err: globalError,
