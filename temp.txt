@@ -1,0 +1,11 @@
+Для документирования всех функция использую эту команду
+jsdoc ./src/ -r 
+
+"type": "module",
+"type": "commonjs",
+
+"module": "commonjs",
+"module": "es2020",
+
+"target": "es2020",
+"target": "commonjs",
