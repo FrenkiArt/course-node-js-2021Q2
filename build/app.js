@@ -14,6 +14,8 @@ const errorHadlers_1 = require("./common/errorHadlers");
 const app = express_1.default();
 const swaggerDocument = yamljs_1.default.load(path_1.default.join(__dirname, '../doc/api.yaml'));
 app.use(express_1.default.json());
+app.use(express_1.default.urlencoded({ extended: true }));
+app.use(errorHadlers_1.logEverything);
 app.use('/doc', swagger_ui_express_1.default.serve, swagger_ui_express_1.default.setup(swaggerDocument));
 app.use('/', (req, res, next) => {
     if (req.originalUrl === '/') {
@@ -25,7 +27,6 @@ app.use('/', (req, res, next) => {
 app.use('/users', user_router_1.default);
 app.use('/boards', board_router_1.default);
 app.use('/boards/:boardId/tasks', task_router_1.default);
-app.use(errorHadlers_1.logErrors);
-app.use(errorHadlers_1.clientErrorHandler);
+app.use('*', errorHadlers_1.page404);
 app.use(errorHadlers_1.errorHandler);
 exports.default = app;
