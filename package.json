@@ -13,6 +13,7 @@
     "watch": "nodemon",
     "build": "tsc",
     "dev": "ts-node-dev src/server.ts",
+    "dev2": "ts-node-dev --poll --respawn --transpileOnly src/server.ts",
     "doc": "jsdoc ./src/ -r",
     "lint": "eslint --ext .js,.ts --fix src/",
     "test": "cross-env DEBUG=rs:* jest --testMatch \"<rootDir>/test/e2e/test/*.test.js\" --noStackTrace --runInBand",

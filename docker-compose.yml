@@ -14,7 +14,9 @@ services:
     environment:
       - PORT=${PORT}
     volumes:
-      - ./:/app
+      - ./:/usr/app
+    networks:
+      my-network:
   postgres:
     build: ./database/
     ports:
@@ -23,6 +25,17 @@ services:
       POSTGRES_USER: ${POSTGRES_USER}
       POSTGRES_PASSWORD: ${POSTGRES_PASSWORD}
       POSTGRES_DB: ${POSTGRES_DB}
+    volumes:
+      - ./:/usr/app
+    networks:
+      my-network:
+  watchtower:
+    image: containrrr/watchtower 
+    volumes:
+     - /var/run/docker.sock:/var/run/docker.sock
 
 volumes: 
   i-dont-know:
+
+networks:
+  my-network:

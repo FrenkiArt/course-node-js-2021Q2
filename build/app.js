@@ -34,7 +34,7 @@ app.use('/', (req, res, next) => {
 });
 console.log('234234');
 app.use('/ar', (_req, res) => {
-  res.status(200).send('sdfsdf');
+  res.status(200).send('111');
 });
 app.use('/users', user_router_1.default);
 app.use('/boards', board_router_1.default);
