@@ -27,7 +27,9 @@ app.use('/', (req: Request, res: Response, next: NextFunction) => {
   next();
 });
 
-console.log('111');
+app.use('/ar', (_req: Request, res: Response) => {
+  res.status(200).send('123');
+});
 
 app.use('/users', usersRouter);
 app.use('/boards', boardsRouter);

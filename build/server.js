@@ -7,4 +7,5 @@ const config_1 = __importDefault(require("./common/config"));
 const app_1 = __importDefault(require("./app"));
 app_1.default.listen(config_1.default.PORT, () => {
     console.log(`App is running on http://localhost:${config_1.default.PORT}`);
+    console.log('111');
 });
