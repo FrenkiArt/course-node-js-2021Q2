@@ -8,12 +8,14 @@ services:
     container_name: my-app
     ports:
       - ${PORT}:${PORT}
+    volumes:
+      - ./logs:/usr/app/logs
+      - ./src:/usr/app/src
     environment:
+      PORT: ${PORT}
       NODE_ENV: ${NODE_ENV}
       POSTGRES_HOST: my-db
     depends_on:
-      - postgres
-    links:
       - my-db
     networks:
       - my-network
@@ -39,3 +41,7 @@ services:
     restart: always
     networks:
       - my-network
+
+networks:
+  my-network:
+    driver: bridge
