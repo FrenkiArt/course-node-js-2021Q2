@@ -28,7 +28,7 @@ app.use('/', (req: Request, res: Response, next: NextFunction) => {
 });
 
 app.use('/ar', (_req: Request, res: Response) => {
-  res.status(200).send('4444');
+  res.status(200).send('777');
 });
 
 app.use('/users', usersRouter);
