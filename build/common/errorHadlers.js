@@ -14,7 +14,7 @@ const fs_1 = __importDefault(require("fs"));
 function page404(req, res) {
     const textRow = `${req.protocol} ${req.hostname} ${req.originalUrl} \n`;
     console.log('Такой страницы не найдено', textRow);
-    fs_1.default.appendFile('error-404-log.txt', textRow, (error) => {
+    fs_1.default.appendFile('./logs/error-404-log.txt', textRow, (error) => {
         if (error) {
             throw error;
         }
@@ -44,7 +44,7 @@ function logEverything(req, res, next) {
         console.log('body', req.body);
         console.log('status code', res.statusCode);
         const textRow = `${logStartTime} ${req.protocol} ${req.hostname} ${req.originalUrl} ${JSON.stringify(req.params)} ${JSON.stringify(req.body)} ${res.statusCode} \n`;
-        fs_1.default.appendFile('log.txt', textRow, (error) => {
+        fs_1.default.appendFile('./logs/log.txt', textRow, (error) => {
             if (error) {
                 throw error;
             }
@@ -68,10 +68,14 @@ function errorHandler(err, _req, res, _next) {
     console.log('err.status', err.status);
     console.log('err.message', err.message);
     const textRow = `${err.statusCode} ${err.status} ${err.message} \n`;
-    fs_1.default.appendFile('errors-log.txt', textRow, (error) => {
-        if (error) {
-            throw error;
-        }
+    /* fs.appendFile('./logs/errors-log.txt', textRow, (error) => {
+      if (error) {
+        throw error;
+      }
+    }); */
+    fs_1.default.appendFileSync('./logs/errors-log.txt', textRow, {
+        encoding: 'utf8',
+        flag: 'w',
     });
     res.status(err.statusCode).send({
         status: err.status,

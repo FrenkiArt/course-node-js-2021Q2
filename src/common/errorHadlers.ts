@@ -11,7 +11,7 @@ function page404(req: Request, res: Response) {
   const textRow = `${req.protocol} ${req.hostname} ${req.originalUrl} \n`;
 
   console.log('Такой страницы не найдено', textRow);
-  fs.appendFile('error-404-log.txt', textRow, (error) => {
+  fs.appendFile('./logs/error-404-log.txt', textRow, (error) => {
     if (error) {
       throw error;
     }
@@ -50,7 +50,7 @@ function logEverything(req: Request, res: Response, next: NextFunction) {
       res.statusCode
     } \n`;
 
-    fs.appendFile('log.txt', textRow, (error) => {
+    fs.appendFile('./logs/log.txt', textRow, (error) => {
       if (error) {
         throw error;
       }
@@ -87,10 +87,15 @@ function errorHandler(
 
   const textRow = `${err.statusCode} ${err.status} ${err.message} \n`;
 
-  fs.appendFile('errors-log.txt', textRow, (error) => {
+  /* fs.appendFile('./logs/errors-log.txt', textRow, (error) => {
     if (error) {
       throw error;
     }
+  }); */
+
+  fs.appendFileSync('./logs/errors-log.txt', textRow, {
+    encoding: 'utf8',
+    flag: 'w',
   });
 
   res.status(err.statusCode).send({
