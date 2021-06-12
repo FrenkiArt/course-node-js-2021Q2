@@ -1,53 +1,81 @@
 "use strict";
+var __importDefault = (this && this.__importDefault) || function (mod) {
+    return (mod && mod.__esModule) ? mod : { "default": mod };
+};
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.errorHandler = exports.clientErrorHandler = exports.logErrors = void 0;
+exports.page404 = exports.errorHandler = exports.logEverything = void 0;
+const stream_1 = require("stream");
+const fs_1 = __importDefault(require("fs"));
 /**
- * Error logging function
- * Функция логгирования ошибок
- * @param {Object} err - error object | Объект ошибки
- * @param {Object} _req - request object | Объект запроса
- * @param {Object} _res - response object | Объект ответа
- * @param {Function} next() - Transfer control to the next function | Передача
- * управления следующей функции
+ * Обработка не найденной страницы 404
+ * @param {Request} req - request object | Объект запроса
+ * @param {Response} res - response object | Объект ответа
  */
-function logErrors(err, _req, _res, next) {
-    console.error(err);
-    next(err);
+function page404(req, res) {
+    const textRow = `${req.protocol} ${req.hostname} ${req.originalUrl} \n`;
+    console.log('Такой страницы не найдено', textRow);
+    fs_1.default.appendFile('error-404-log.txt', textRow, (error) => {
+        if (error) {
+            throw error;
+        }
+    });
+    res
+        .status(404)
+        .json({ error: `Далеко собрался? Такой страницы не найдено!` });
 }
-exports.logErrors = logErrors;
+exports.page404 = page404;
 /**
- * Error logging function
- * Функция логгирования ошибок
- * @param {Object} err - error object | Объект ошибки
- * @param {Object} req - request object | Объект запроса
- * @param {Object} res - response object | Объект ответа
- * @param {Function} next() - Transfer control to the next function | Передача
- * управления следующей функции
+ * Logging function
+ * Функция логгирования всего
+ * @param {Request} req - request object | Объект запроса
+ * @param {Response} res - response object | Объект ответа
+ * @param {NextFunction} next() - Transfer control to the next
+ * function | Передача управления следующей функции
  */
-function clientErrorHandler(err, req, res, next) {
-    if (req.xhr) {
-        res.status(500).send({ error: 'Something failed!' });
-    }
-    else {
-        next(err);
-    }
+function logEverything(req, res, next) {
+    const logStartTime = new Date();
+    next();
+    stream_1.finished(res, () => {
+        console.log('Дата и время начала лога', logStartTime);
+        console.log('req.protocol', req.protocol);
+        console.log('req.hostname', req.hostname);
+        console.log('req.originalUrl', req.originalUrl);
+        console.log('params', req.params);
+        console.log('body', req.body);
+        console.log('status code', res.statusCode);
+        const textRow = `${logStartTime} ${req.protocol} ${req.hostname} ${req.originalUrl} ${JSON.stringify(req.params)} ${JSON.stringify(req.body)} ${res.statusCode} \n`;
+        fs_1.default.appendFile('log.txt', textRow, (error) => {
+            if (error) {
+                throw error;
+            }
+        });
+    });
 }
-exports.clientErrorHandler = clientErrorHandler;
+exports.logEverything = logEverything;
 /**
  * Error logging function
  * Функция логгирования ошибок
- * @param {Object} err - error object | Объект ошибки
- * @param {Object} _req - request object | Объект запроса
- * @param {Object} res - response object | Объект ответа
- * @param {Function} next() - Transfer control to the next function | Передача
- * управления следующей функции
- * @return {Void}
+ * @param {Error} err - error object | Объект ошибки
+ * @param {Request} _req - request object | Объект запроса
+ * @param {Response} res - response object | Объект ответа
+ * @param {NextFunction} _next() - Transfer control to the next
+ * function | Передача управления следующей функции
  */
-function errorHandler(err, _req, res, next) {
-    if (res.headersSent) {
-        return next(err);
-    }
-    res.status(500);
-    res.render('error', { error: err });
+function errorHandler(err, _req, res, _next) {
+    err.statusCode = err.statusCode || 500;
+    err.status = err.status || 'Error';
+    console.log('err.statusCode', err.statusCode);
+    console.log('err.status', err.status);
+    console.log('err.message', err.message);
+    const textRow = `${err.statusCode} ${err.status} ${err.message} \n`;
+    fs_1.default.appendFile('errors-log.txt', textRow, (error) => {
+        if (error) {
+            throw error;
+        }
+    });
+    res.status(err.statusCode).send({
+        status: err.status,
+        message: err.message,
+    });
 }
 exports.errorHandler = errorHandler;
