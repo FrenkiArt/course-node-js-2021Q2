@@ -1,5 +1,5 @@
 import { dataBase } from '../../common/inMemoryDb';
-import Task from './task.model';
+import Task from '../../entity/task.model';
 
 /**
  * This function returns an array of tasks for a specific board.

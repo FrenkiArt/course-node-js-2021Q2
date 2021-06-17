@@ -1,5 +1,5 @@
 import { dataBase } from '../../common/inMemoryDb';
-import User from './user.model';
+import User from '../../entity/user.model';
 
 /**
  * This function returns an array of users.

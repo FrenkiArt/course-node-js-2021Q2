@@ -1,5 +1,5 @@
 import * as express from 'express';
-import User from './user.model';
+import User from '../../entity/user.model';
 import * as usersService from './user.service';
 import * as tasksService from '../tasks/task.service';
 

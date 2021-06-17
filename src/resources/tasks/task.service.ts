@@ -1,5 +1,5 @@
 import * as tasksRepo from './task.memory.repository';
-import Task from './task.model';
+import Task from '../../entity/task.model';
 
 const getAll = (boardId: string) => tasksRepo.getAll(boardId);
 const deleteAllTasksByBoardId = (boardId: string) =>

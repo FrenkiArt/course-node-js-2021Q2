@@ -1,5 +1,5 @@
 import * as usersRepo from './user.memory.repository';
-import User from './user.model';
+import User from '../../entity/user.model';
 
 const getAll = () => usersRepo.getAll();
 const getById = (userId: string) => usersRepo.getById(userId);

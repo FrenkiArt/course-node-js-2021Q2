@@ -1,6 +1,6 @@
 import { dataBase } from '../../common/inMemoryDb';
-import Task from '../tasks/task.model';
-import Board from './board.model';
+import Task from '../../entity/task.model';
+import Board from '../../entity/board.model';
 
 /**
  * This function returns an array of "Boards".
