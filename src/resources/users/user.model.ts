@@ -1,4 +1,5 @@
 import * as uuid from 'uuid';
+import { Entity, Column } from 'typeorm';
 
 interface IUser {
   id: string;
@@ -11,13 +12,18 @@ interface IUser {
  * User Class | Класс Пользователя
  * @class
  */
+@Entity()
 class User implements IUser {
+  @Column()
   id: string;
 
+  @Column()
   name: string;
 
+  @Column()
   login: string;
 
+  @Column()
   password: string;
 
   /**

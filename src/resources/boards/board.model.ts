@@ -1,4 +1,5 @@
 import * as uuid from 'uuid';
+import { Entity, Column } from 'typeorm';
 
 interface IBoard {
   id: string;
@@ -12,6 +13,7 @@ interface IBoard {
  * Board Class | Класс Доски
  * @class
  */
+@Entity()
 class Board implements IBoard {
   /**
    * This class creates an instance of the user's whiteboard.
@@ -61,14 +63,19 @@ class Board implements IBoard {
     });
   }
 
+  @Column()
   id: string;
 
+  @Column()
   columnsCounter: number;
 
+  @Column()
   title: string;
 
+  @Column()
   userId: string | null;
 
+  @Column()
   columns: object[];
 }
 

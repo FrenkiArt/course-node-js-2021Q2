@@ -5,7 +5,6 @@ import YAML from 'yamljs';
 import usersRouter from './resources/users/user.router';
 import boardsRouter from './resources/boards/board.router';
 import tasksRouter from './resources/tasks/task.router';
-import 'reflect-metadata';
 
 import {
   logErrors,
@@ -27,11 +26,6 @@ app.use('/', (req: Request, res: Response, next: NextFunction) => {
   }
   next();
 });
-
-app.use('/ar', (_req: Request, res: Response) => {
-  res.status(200).send('hehehe');
-});
-console.log('hehehe');
 
 app.use('/users', usersRouter);
 app.use('/boards', boardsRouter);

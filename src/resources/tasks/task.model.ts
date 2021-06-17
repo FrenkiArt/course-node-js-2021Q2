@@ -1,4 +1,5 @@
 import * as uuid from 'uuid';
+import { Entity, Column } from 'typeorm';
 
 interface ITask {
   id: string;
@@ -14,6 +15,7 @@ interface ITask {
  * Task class | Класс задачи
  * @class
  */
+@Entity()
 class Task implements ITask {
   /**
    * This class creates an instance of the user's task.
@@ -45,18 +47,25 @@ class Task implements ITask {
     this.columnId = columnId;
   }
 
+  @Column()
   id: string;
 
+  @Column()
   title: string;
 
+  @Column()
   order: number;
 
+  @Column()
   description: string;
 
+  @Column()
   userId: string | null;
 
+  @Column()
   boardId: string;
 
+  @Column()
   columnId: string;
 }
 
