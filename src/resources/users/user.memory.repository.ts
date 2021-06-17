@@ -31,7 +31,7 @@ const getById = async (userId: string) => {
   // const userById = await entityManager.findOne(User, userId);
 
   const userById = await userRepository.findOne(userId);
-  if (userById === undefined) return 'userById not found';
+  // if (userById === undefined) return 'userById not found';
   return userById;
 };
 
@@ -86,7 +86,8 @@ const updateUser = async (
     return item;
   }); */
 
-  await userRepository.update(userId, userArgs);
+  const updatedUser = await userRepository.update(userId, userArgs);
+  return updatedUser;
 };
 
 /**
@@ -102,7 +103,8 @@ const deleteUser = async (userId: string) => {
   }); */
 
   // await userRepository.delete(userId);
-  await userRepository.softDelete(userId);
+  const deletedUser = await userRepository.softDelete(userId);
+  return deletedUser;
 };
 
 export { getAll, addNewUser, updateUser, deleteUser, getById, createUser };

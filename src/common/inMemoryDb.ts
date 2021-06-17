@@ -30,12 +30,13 @@ const connectToDB = async () => {
         await connection.connect();
       }
     } else {
-      await createConnection({
+      /* await createConnection({
         type: 'postgres',
         host: 'localhost',
         username: 'postgres',
         password: 'postgres',
-      });
+      }); */
+      await createConnection();
     }
 
     console.log('Successfully connected to our base. Yahooo!');
