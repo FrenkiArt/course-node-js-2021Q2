@@ -1,5 +1,9 @@
+import { getManager } from 'typeorm';
 import { dataBase } from '../../common/inMemoryDb';
 import User from '../../entity/user.model';
+
+const entityManager = getManager();
+// you can also get it via getConnection().manager
 
 /**
  * This function returns an array of users.
@@ -17,8 +21,11 @@ const getAll = async () =>
  * @param {string} userId - User ID.| ID пользователя.
  * @return {object} User object.| Объект пользователя.
  */
-const getById = async (userId: string) =>
-  dataBase.users.filter((user: User) => user.id === userId)[0];
+const getById = async (userId: string) => {
+  // dataBase.users.filter((user: User) => user.id === userId)[0];
+  const userById = await entityManager.findOne(User, userId);
+  return userById;
+};
 
 /**
  * This function adds a new user to the database.
