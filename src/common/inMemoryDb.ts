@@ -1,7 +1,9 @@
+import 'reflect-metadata';
 import { createConnection, getConnection } from 'typeorm';
 import Board from '../entity/board.model';
 import Task from '../entity/task.model';
 import User from '../entity/user.model';
+// import { config } from './ormconfig';
 
 interface DataBase {
   users: Array<User>;
@@ -16,12 +18,15 @@ const dataBase: DataBase = {
 };
 
 const connectToDB = async () => {
+  await createConnection();
+
   let connection;
 
   try {
     connection = getConnection();
   } catch (err) {
     // handle error
+    console.log('попытка createConnection не удалась');
   }
 
   try {
@@ -30,12 +35,6 @@ const connectToDB = async () => {
         await connection.connect();
       }
     } else {
-      /* await createConnection({
-        type: 'postgres',
-        host: 'localhost',
-        username: 'postgres',
-        password: 'postgres',
-      }); */
       await createConnection();
     }
 
@@ -52,7 +51,7 @@ const TryDBConnect = async (cb: () => void) => {
     await connectToDB();
     cb();
   } catch (err) {
-    console.error('DB connect is error');
+    console.error('DB connect is error hehe');
   }
 };
 

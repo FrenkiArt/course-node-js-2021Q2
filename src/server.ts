@@ -11,10 +11,21 @@ import app from './app';
   });
 }); */
 
+createConnection()
+  .then(async (connection) => {
+    console.log('-----------------------------------');
+    console.log('connection is:', connection);
+
+    app.listen(config.PORT, () => {
+      console.log(`App is running on http://localhost:${config.PORT}`);
+    });
+  })
+  .catch((error) => console.log('TypeORM connection error: ', error));
+
 // create connection with database
 // note that it's not active database connection
 // TypeORM creates connection pools and uses them for your requests
-createConnection()
+/* createConnection()
   .then(async (connection) => {
     // (connection)
     console.log('-----------------------------------');
@@ -24,12 +35,12 @@ createConnection()
       console.log(`App is running on http://localhost:${config.PORT}`);
     });
 
-    /*  await connection.manager.save(
+     await connection.manager.save(
       connection.manager.create(User, {
         name: 'Arthur',
         login: 'Best',
         password: 'password',
       })
-    ); */
+    );
   })
-  .catch((error) => console.log('TypeORM connection error: ', error));
+  .catch((error) => console.log('TypeORM connection error: ', error)); */
