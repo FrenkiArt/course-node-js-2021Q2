@@ -11,7 +11,6 @@ services:
     volumes:
       - ./logs:/usr/app/logs
       - ./src:/usr/app/src
-      # - node_modules:/usr/app/node_modules
     environment:
       PORT: ${PORT}
       NODE_ENV: ${NODE_ENV}

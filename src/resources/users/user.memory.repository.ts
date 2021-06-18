@@ -1,4 +1,4 @@
-import { /* getManager, */ getRepository } from 'typeorm';
+import { getConnection, getRepository } from 'typeorm';
 // import { dataBase } from '../../common/inMemoryDb';
 import User from '../../entity/user.model';
 
@@ -19,8 +19,6 @@ const getAll = async () => {
   // [];
   // dataBase.users;
   const userRepository = getRepository(User);
-  console.log('11111111111111111');
-  console.log(userRepository.find({ where: [] }));
 
   return userRepository.find();
 };
@@ -98,6 +96,7 @@ const updateUser = async (
   const updatedUser = await userRepository.update(userId, userArgs);
   return updatedUser;
 };
+console.log(getConnection);
 
 /**
  * This function removes the user from the database.
@@ -111,10 +110,16 @@ const deleteUser = async (userId: string) => {
     }
   }); */
 
-  // await userRepository.delete(userId);
   const userRepository = getRepository(User);
-  const deletedUser = await userRepository.softDelete(userId);
-  return deletedUser;
+  // const deletedUser =  await userRepository.delete(userId);
+  await userRepository.delete(userId);
+  /* const deletedUser = await getConnection()
+    .createQueryBuilder()
+    .delete()
+    .from(User)
+    .where(`userId = ${userId}`, { userId })
+    .execute();*/
+  // return deletedUser;
 };
 
 export { getAll, addNewUser, updateUser, deleteUser, getById, createUser };

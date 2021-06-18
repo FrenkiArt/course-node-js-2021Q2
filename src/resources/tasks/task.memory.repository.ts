@@ -1,4 +1,5 @@
-import { dataBase } from '../../common/inMemoryDb';
+import { getConnection, getRepository } from 'typeorm';
+// import { dataBase } from '../../common/inMemoryDb';
 import Task from '../../entity/task.model';
 
 /**
@@ -9,10 +10,16 @@ import Task from '../../entity/task.model';
  * Ассоциативный массив задач конкретной доски.
  */
 const getAll = async (boardId: string) => {
-  const tasksByBoardId = dataBase.tasks.filter(
+  /* const tasksByBoardId = dataBase.tasks.filter(
     (task: { boardId: string }) => task.boardId === boardId
   );
 
+  return tasksByBoardId; */
+  const taskRepository = getRepository(Task);
+  const tasksByBoardId = taskRepository
+    .createQueryBuilder('task')
+    .where(`boardId = ${boardId}`, { boardId })
+    .getMany();
   return tasksByBoardId;
 };
 
@@ -22,9 +29,15 @@ const getAll = async (boardId: string) => {
  * @param {string | undefined} boardId - Board ID.| ID доски.
  */
 const deleteAllTasksByBoardId = async (boardId: string) => {
-  dataBase.tasks = dataBase.tasks.filter(
+  /* dataBase.tasks = dataBase.tasks.filter(
     (task: Task) => task.boardId !== boardId
-  );
+  ); */
+  const taskRepository = getRepository(Task);
+  taskRepository
+    .createQueryBuilder('task')
+    .delete()
+    .where(`boardId = ${boardId}`, { boardId })
+    .execute();
 };
 
 /**
@@ -36,11 +49,18 @@ const deleteAllTasksByBoardId = async (boardId: string) => {
  * @param {string} userId - User ID.| ID пользователя.
  */
 const deleteUserIdFromAllHisTasks = async (userId: string) => {
-  dataBase.tasks.forEach((task) => {
+  /* dataBase.tasks.forEach((task) => {
     if (task.userId === userId) {
       task.userId = null;
     }
-  });
+  }); */
+
+  await getConnection()
+    .createQueryBuilder()
+    .update(Task)
+    .set({ userId: null })
+    .where(`userId = ${userId}`, { userId })
+    .execute();
 };
 
 /**
@@ -48,14 +68,25 @@ const deleteUserIdFromAllHisTasks = async (userId: string) => {
  * Эта функция возвращает задачу по ID задачи и ID доски.
  * @param {object} args - The object of the arguments to be passed.|
  * Объект передаваемых аргументов.
- * @param {string | undefined} taskId - Task ID.| ID задачи.
- * @param {string | undefined} boardId - Board ID.| ID доски.
+ * @param {string} taskId - Task ID.| ID задачи.
+ * @param {string} boardId - Board ID.| ID доски.
  * @return {object} The task object.| Объект задачи.
  */
-const getById = async (args: { taskId: string | undefined; boardId: string }) =>
-  dataBase.tasks.filter(
+const getById = async (args: { taskId: string; boardId: string }) => {
+  /* dataBase.tasks.filter(
     (task) => task.id === args.taskId && task.boardId === args.boardId
-  )[0];
+  )[0]; */
+
+  const taskRepository = await getRepository(Task);
+  const constById = taskRepository
+    .createQueryBuilder('task')
+    .where(`boardId = ${args.boardId}`, {
+      boardId: args.boardId,
+    })
+    .andWhere(`taskId = ${args.taskId}`, { taskId: args.taskId })
+    .getOne();
+  return constById;
+};
 
 /**
  * This function adds a new task to the database.
@@ -63,7 +94,10 @@ const getById = async (args: { taskId: string | undefined; boardId: string }) =>
  * @param {object} newTask The object of the new task.| Объект новой задачи.
  */
 const addNewTask = async (newTask: Task) => {
-  dataBase.tasks.push(newTask);
+  // dataBase.tasks.push(newTask);
+
+  const taskRepository = await getRepository(Task);
+  taskRepository.save(newTask);
 };
 
 /**
@@ -73,8 +107,13 @@ const addNewTask = async (newTask: Task) => {
  * @return {object} The task object.| Объект задачи.
  */
 const createTask = async (newTask: Task) => {
-  dataBase.tasks.push(newTask);
-  return newTask;
+  /* dataBase.tasks.push(newTask);
+  return newTask; */
+
+  const taskRepository = await getRepository(Task);
+  const newCreatedTask = taskRepository.create(newTask);
+  const newSavedTask = taskRepository.save(newCreatedTask);
+  return newSavedTask;
 };
 
 /**
@@ -95,7 +134,7 @@ const updateTask = async (
   },
   taskId: string | undefined
 ) => {
-  dataBase.tasks.forEach(
+  /* dataBase.tasks.forEach(
     (item: {
       id: string;
       title: string;
@@ -117,7 +156,14 @@ const updateTask = async (
       }
       return item;
     }
-  );
+  ); */
+
+  await getConnection()
+    .createQueryBuilder()
+    .update(Task)
+    .set(taskArgs)
+    .where(`taskId = ${taskId}`, { taskId })
+    .execute();
 };
 
 /**
@@ -126,11 +172,18 @@ const updateTask = async (
  * @param {string | undefined} taskId Task ID.| ID задачи.
  */
 const deleteTask = async (taskId: string | undefined) => {
-  dataBase.tasks.forEach((item: { id: string }, index: number) => {
+  /* dataBase.tasks.forEach((item: { id: string }, index: number) => {
     if (item.id === taskId) {
       dataBase.tasks.splice(index, 1);
     }
-  });
+  }); */
+
+  await getConnection()
+    .createQueryBuilder()
+    .delete()
+    .from(Task)
+    .where(`taskId = ${taskId}`, { taskId })
+    .execute();
 };
 
 export {

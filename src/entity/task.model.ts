@@ -1,5 +1,7 @@
 import * as uuid from 'uuid';
-import { Entity, Column, PrimaryColumn } from 'typeorm';
+import { Entity, Column, PrimaryColumn, ManyToOne } from 'typeorm';
+import Board from './board.model';
+import User from './user.model';
 
 interface ITask {
   id: string;
@@ -59,11 +61,13 @@ class Task implements ITask {
   @Column()
   description: string;
 
+  // @ManyToOne((type) => User, (user) => user.id)
   @Column({ type: 'text', nullable: true })
-  userId: string | null;
+  userId: User['id'] | null;
 
-  @Column()
-  boardId: string;
+  // @Column({ type: 'text' })
+  @ManyToOne((type) => Board, (board: Board) => board.id)
+  boardId: Board['id'];
 
   @Column()
   columnId: string;

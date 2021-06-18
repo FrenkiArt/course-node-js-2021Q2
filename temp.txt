@@ -1,4 +1,5 @@
 
+host.docker.internal
 "postgres:9.6.1"
 postgres:13.3-alpine
 PGDATA: /var/lib/postgresql/data/pgdata

@@ -3,7 +3,6 @@ import { createConnection, getConnection } from 'typeorm';
 import Board from '../entity/board.model';
 import Task from '../entity/task.model';
 import User from '../entity/user.model';
-// import { config } from './ormconfig';
 
 interface DataBase {
   users: Array<User>;
@@ -29,35 +28,6 @@ const connectToDB = async () => {
   }
 };
 
-/* const connectToDB = async () => {
-  await createConnection();
-
-  let connection;
-
-  try {
-    connection = getConnection();
-  } catch (err) {
-    // handle error
-    console.log('попытка createConnection не удалась');
-  }
-
-  try {
-    if (connection) {
-      if (!connection.isConnected) {
-        await connection.connect();
-      }
-    } else {
-      await createConnection();
-    }
-
-    console.log('Successfully connected to our base. Yahooo!');
-  } catch (err) {
-    // handle error
-    console.log('connection to DB is Error ((');
-    console.log(err);
-  }
-}; */
-
 const TryDBConnect = async (cb: () => void) => {
   try {
     await connectToDB();
@@ -68,11 +38,3 @@ const TryDBConnect = async (cb: () => void) => {
 };
 
 export { dataBase, TryDBConnect };
-/* export const TryDBConnect = async (callback: () => void): Promise<void> => {
-  try {
-    await connectToDB();
-    callback();
-  } catch (error) {
-    console.error('tryDBConnect failed', error);
-  }
-}; */
