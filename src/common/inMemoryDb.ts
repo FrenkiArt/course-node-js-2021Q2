@@ -18,6 +18,18 @@ const dataBase: DataBase = {
 };
 
 const connectToDB = async () => {
+  // let connection;
+  try {
+    await createConnection();
+    const connection = getConnection();
+    if (!connection.isConnected) await connection.connect();
+    console.log('well done');
+  } catch (error) {
+    console.error('getConnection failed', error);
+  }
+};
+
+/* const connectToDB = async () => {
   await createConnection();
 
   let connection;
@@ -44,7 +56,7 @@ const connectToDB = async () => {
     console.log('connection to DB is Error ((');
     console.log(err);
   }
-};
+}; */
 
 const TryDBConnect = async (cb: () => void) => {
   try {
@@ -56,3 +68,11 @@ const TryDBConnect = async (cb: () => void) => {
 };
 
 export { dataBase, TryDBConnect };
+/* export const TryDBConnect = async (callback: () => void): Promise<void> => {
+  try {
+    await connectToDB();
+    callback();
+  } catch (error) {
+    console.error('tryDBConnect failed', error);
+  }
+}; */

@@ -34,7 +34,7 @@ services:
     image: 'postgres:13.3-alpine'
     container_name: my-db
     ports:
-      - 5433:${POSTGRES_PORT}
+      - ${POSTGRES_PORT}:${POSTGRES_PORT}
     volumes:
       - ./pg_data:/var/lib/postgresql/data/
     environment:

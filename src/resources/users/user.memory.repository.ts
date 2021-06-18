@@ -5,7 +5,7 @@ import User from '../../entity/user.model';
 // const entityManager = getManager();
 // you can also get it via getConnection().manager
 
-const userRepository = getRepository(User);
+// const userRepository = getRepository(User);
 // you can also get it via getConnection().getRepository()
 // or getManager().getRepository()
 
@@ -15,10 +15,15 @@ const userRepository = getRepository(User);
  * @return {array} An associative array of users.|
  * Ассоциативный массив пользователей.
  */
-const getAll = async () =>
+const getAll = async () => {
   // [];
   // dataBase.users;
-  userRepository.find({ where: {} });
+  const userRepository = getRepository(User);
+  console.log('11111111111111111');
+  console.log(userRepository.find({ where: [] }));
+
+  return userRepository.find();
+};
 
 /**
  * This function returns the user by ID.
@@ -30,6 +35,7 @@ const getById = async (userId: string) => {
   // dataBase.users.filter((user: User) => user.id === userId)[0];
   // const userById = await entityManager.findOne(User, userId);
 
+  const userRepository = getRepository(User);
   const userById = await userRepository.findOne(userId);
   // if (userById === undefined) return 'userById not found';
   return userById;
@@ -43,6 +49,7 @@ const getById = async (userId: string) => {
  */
 const addNewUser = async (newUser: User) => {
   // dataBase.users.push(newUser);
+  const userRepository = getRepository(User);
   userRepository.save(newUser);
 };
 
@@ -57,6 +64,7 @@ const addNewUser = async (newUser: User) => {
 
 const createUser = async (reqBody: object) => {
   // const newUser = new User(reqBody);
+  const userRepository = getRepository(User);
   const newUser = userRepository.create(reqBody);
   // dataBase.users.push(newUser);
   const newSavedUser = userRepository.save(newUser);
@@ -86,6 +94,7 @@ const updateUser = async (
     return item;
   }); */
 
+  const userRepository = getRepository(User);
   const updatedUser = await userRepository.update(userId, userArgs);
   return updatedUser;
 };
@@ -103,6 +112,7 @@ const deleteUser = async (userId: string) => {
   }); */
 
   // await userRepository.delete(userId);
+  const userRepository = getRepository(User);
   const deletedUser = await userRepository.softDelete(userId);
   return deletedUser;
 };

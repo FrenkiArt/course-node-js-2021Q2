@@ -1,9 +1,9 @@
 import 'reflect-metadata';
-import { createConnection } from 'typeorm';
+// import { createConnection } from 'typeorm';
 import config from './common/config';
 import app from './app';
 // import User from './entity/user.model';
-// import { TryDBConnect } from './common/inMemoryDb';
+import { TryDBConnect } from './common/inMemoryDb';
 
 /* TryDBConnect(() => {
   app.listen(config.PORT, () => {
@@ -11,7 +11,13 @@ import app from './app';
   });
 }); */
 
-createConnection()
+TryDBConnect(() => {
+  app.listen(config.PORT, () => {
+    console.log(`App is running on http://localhost:${config.PORT}`);
+  });
+});
+
+/* createConnection()
   .then(async (connection) => {
     console.log('-----------------------------------');
     console.log('connection is:', connection);
@@ -20,7 +26,7 @@ createConnection()
       console.log(`App is running on http://localhost:${config.PORT}`);
     });
   })
-  .catch((error) => console.log('TypeORM connection error: ', error));
+  .catch((error) => console.log('TypeORM connection error: ', error)); */
 
 // create connection with database
 // note that it's not active database connection

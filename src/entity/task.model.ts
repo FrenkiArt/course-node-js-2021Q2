@@ -1,5 +1,5 @@
 import * as uuid from 'uuid';
-import { Entity, Column } from 'typeorm';
+import { Entity, Column, PrimaryColumn } from 'typeorm';
 
 interface ITask {
   id: string;
@@ -47,7 +47,7 @@ class Task implements ITask {
     this.columnId = columnId;
   }
 
-  @Column()
+  @PrimaryColumn('uuid')
   id: string;
 
   @Column()
@@ -59,7 +59,7 @@ class Task implements ITask {
   @Column()
   description: string;
 
-  @Column()
+  @Column({ type: 'text', nullable: true })
   userId: string | null;
 
   @Column()

@@ -1,5 +1,6 @@
 import * as uuid from 'uuid';
-import { Entity, Column } from 'typeorm';
+import { Entity, Column, PrimaryColumn } from 'typeorm';
+// import User from './user.model';
 
 interface IBoard {
   id: string;
@@ -63,7 +64,7 @@ class Board implements IBoard {
     });
   }
 
-  @Column()
+  @PrimaryColumn('uuid')
   id: string;
 
   @Column()
@@ -72,10 +73,11 @@ class Board implements IBoard {
   @Column()
   title: string;
 
-  @Column()
+  @Column({ type: 'text', nullable: true })
   userId: string | null;
 
-  @Column()
+  // one-to-many
+  @Column('simple-array')
   columns: object[];
 }
 

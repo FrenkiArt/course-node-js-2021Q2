@@ -1,5 +1,5 @@
 import * as uuid from 'uuid';
-import { Entity, Column } from 'typeorm';
+import { Entity, Column, PrimaryColumn } from 'typeorm';
 
 interface IUser {
   id: string;
@@ -14,7 +14,7 @@ interface IUser {
  */
 @Entity()
 class User implements IUser {
-  @Column()
+  @PrimaryColumn('uuid')
   id: string;
 
   @Column()
