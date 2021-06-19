@@ -5,6 +5,20 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
 Object.defineProperty(exports, "__esModule", { value: true });
 const config_1 = __importDefault(require("./common/config"));
 const app_1 = __importDefault(require("./app"));
-app_1.default.listen(config_1.default.PORT, () => {
+const server = app_1.default.listen(config_1.default.PORT, () => {
     console.log(`App is running on http://localhost:${config_1.default.PORT}`);
+});
+process.on('unhundledRejection', (err) => {
+    console.log(err.name, err.message);
+    console.log('unhundledRejection');
+    server.close(() => {
+        process.exit(1);
+    });
+});
+process.on('uncaughtException', (err) => {
+    console.log(err.name, err.message);
+    console.log('uncaughtException');
+    server.close(() => {
+        process.exit(1);
+    });
 });

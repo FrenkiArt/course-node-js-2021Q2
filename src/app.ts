@@ -5,17 +5,15 @@ import YAML from 'yamljs';
 import usersRouter from './resources/users/user.router';
 import boardsRouter from './resources/boards/board.router';
 import tasksRouter from './resources/tasks/task.router';
-
-import {
-  logErrors,
-  clientErrorHandler,
-  errorHandler,
-} from './common/errorHadlers';
+import { logEverything, errorHandler, page404 } from './common/errorHadlers';
 
 const app = express();
 const swaggerDocument = YAML.load(path.join(__dirname, '../doc/api.yaml'));
 
 app.use(express.json());
+app.use(express.urlencoded({ extended: true }));
+
+app.use(logEverything);
 
 app.use('/doc', swaggerUI.serve, swaggerUI.setup(swaggerDocument));
 
@@ -35,9 +33,8 @@ console.log('hehehe');
 app.use('/users', usersRouter);
 app.use('/boards', boardsRouter);
 app.use('/boards/:boardId/tasks', tasksRouter);
+app.use('*', page404);
 
-app.use(logErrors);
-app.use(clientErrorHandler);
 app.use(errorHandler);
 
 export default app;
