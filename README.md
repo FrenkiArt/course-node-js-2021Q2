@@ -1,5 +1,17 @@
 # RS School REST service
 
+## Docker
+
+Use "docker pull artywork/my-app:v3" for downloading my image.
+
+Use "docker compose up" for uping this image.
+
+Use "docker compose down" for downing this image.
+
+Use "docker image tag course-node-js-2021q2_my-app artywork/my-app:anyTag" for preparing new image.
+
+Use "docker image push artywork/my-app:anyTag" for pushing new image.
+
 ## Prerequisites
 
 - Git - [Download & Install Git](https://git-scm.com/downloads).

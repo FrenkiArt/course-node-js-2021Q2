@@ -10,8 +10,10 @@
   "main": "build/server.js",
   "scripts": {
     "start": "node build/server.js",
+    "watch": "nodemon",
     "build": "tsc",
-    "dev": "ts-node-dev src/server.ts",
+    "dev": "nodemon -L --exitcrash src/server.ts",
+    "dev2": "ts-node-dev src/server.ts",
     "doc": "jsdoc ./src/ -r",
     "lint": "eslint --ext .js,.ts --fix src/",
     "test": "cross-env DEBUG=rs:* jest --testMatch \"<rootDir>/test/e2e/test/*.test.js\" --noStackTrace --runInBand",
@@ -47,6 +49,7 @@
     ]
   },
   "dependencies": {
+    "-": "^0.0.1",
     "babel-eslint": "^10.1.0",
     "cross-env": "7.0.3",
     "dotenv": "9.0.0",
@@ -55,6 +58,7 @@
     "jsdoc": "^3.6.7",
     "swagger-ui-express": "4.1.6",
     "ts-node": "^10.0.0",
+    "tslib": "^1.14.1",
     "uuid": "8.3.2",
     "yamljs": "0.3.0"
   },
@@ -84,7 +88,7 @@
     "husky": "4.3.8",
     "jest": "26.6.3",
     "lint-staged": "10.5.4",
-    "nodemon": "2.0.7",
+    "nodemon": "^2.0.7",
     "path": "^0.12.7",
     "prettier": "2.2.1",
     "supertest": "6.1.3",
