@@ -110,16 +110,14 @@ const deleteUser = async (userId: string) => {
     }
   }); */
 
-  const userRepository = getRepository(User);
-  // const deletedUser =  await userRepository.delete(userId);
-  await userRepository.delete(userId);
-  /* const deletedUser = await getConnection()
+  /* const userRepository = getRepository(User);
+  await userRepository.delete(userId); */
+  await getConnection()
     .createQueryBuilder()
     .delete()
     .from(User)
-    .where(`userId = ${userId}`, { userId })
-    .execute();*/
-  // return deletedUser;
+    .where(`id = :userId`, { userId })
+    .execute();
 };
 
 export { getAll, addNewUser, updateUser, deleteUser, getById, createUser };

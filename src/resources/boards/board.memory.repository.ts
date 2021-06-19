@@ -1,6 +1,6 @@
-import { getRepository } from 'typeorm';
+import { getConnection, getRepository } from 'typeorm';
 // import { dataBase } from '../../common/inMemoryDb';
-import Task from '../../entity/task.model';
+// import Task from '../../entity/task.model';
 import Board from '../../entity/board.model';
 
 /**
@@ -52,8 +52,9 @@ const createBoard = async (reqBody: object) => {
   // return getById(newBoard.id);
   const boardRepository = getRepository(Board);
   const newBoard = boardRepository.create(reqBody);
-  const newSavedBoard = boardRepository.save(newBoard);
-  return newSavedBoard;
+  boardRepository.save(newBoard);
+
+  return newBoard;
 };
 
 /**
@@ -103,16 +104,20 @@ const deleteBoard = async (boardId: string) => {
   });
 
   dataBase.tasks = newDbTasks; */
-  const taskRepository = await getRepository(Task);
-  await taskRepository
-    .createQueryBuilder('task')
-    .delete()
-    .where(`boardId = ${boardId}`, { boardId })
-    .execute();
 
-  const boardRepository = getRepository(Board);
-  const deletedBoard = await boardRepository.softDelete(boardId);
-  return deletedBoard;
+  /* await getConnection()
+    .createQueryBuilder()
+    .delete()
+    .from(Task)
+    .where('boardId = :boardId', { boardId })
+    .execute(); */
+
+  await getConnection()
+    .createQueryBuilder()
+    .delete()
+    .from(Board)
+    .where('id = :boardId', { boardId })
+    .execute();
 };
 
 export { getAll, addBoard, updateBoard, deleteBoard, getById, createBoard };

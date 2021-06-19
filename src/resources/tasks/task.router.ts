@@ -54,7 +54,7 @@ router.route('/:taskId').put(async (req, res) => {
   });
 
   if (taskIsBe) {
-    tasksService.updateTask(req.body, req.params['taskId']);
+    tasksService.updateTask(req.body, String(req.params['taskId']));
     res.status(200).json(req.body);
   } else {
     res
@@ -75,7 +75,7 @@ router.route('/:taskId').delete(async (req, res) => {
   });
 
   if (taskIsBe) {
-    tasksService.deleteTask(req.params['taskId']);
+    tasksService.deleteTask(String(req.params['taskId']));
     res.status(204).json({ message: 'Объект удалён' });
   } else {
     res

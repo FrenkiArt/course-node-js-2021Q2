@@ -1,7 +1,8 @@
 import * as uuid from 'uuid';
-import { Entity, Column, PrimaryColumn, ManyToOne } from 'typeorm';
+import { Entity, Column, PrimaryColumn } from 'typeorm';
 import Board from './board.model';
 import User from './user.model';
+import MyColumn from './column.model';
 
 interface ITask {
   id: string;
@@ -10,7 +11,7 @@ interface ITask {
   description: string;
   userId: string | null;
   boardId: string;
-  columnId: string;
+  columnId: string | null;
 }
 
 /**
@@ -29,7 +30,7 @@ class Task implements ITask {
    * @param {string} description - Task description.| Описание задачи.
    * @param {string | null} userId - User ID.| ID пользователя.
    * @param {string} boardId - Board ID | ID доски.
-   * @param {string} columnId - Column ID. ID колонки.
+   * @param {string | null} columnId - Column ID. ID колонки.
    */
   constructor({
     id = uuid.v4(),
@@ -61,16 +62,14 @@ class Task implements ITask {
   @Column()
   description: string;
 
-  // @ManyToOne((type) => User, (user) => user.id)
   @Column({ type: 'text', nullable: true })
   userId: User['id'] | null;
 
-  // @Column({ type: 'text' })
-  @ManyToOne((type) => Board, (board: Board) => board.id)
+  @Column({ type: 'text' })
   boardId: Board['id'];
 
-  @Column()
-  columnId: string;
+  @Column({ type: 'text', nullable: true })
+  columnId: MyColumn['id'] | null;
 }
 
 export default Task;

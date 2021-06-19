@@ -19,9 +19,9 @@ const updateTask = (
     boardId: string;
     columnId: string;
   },
-  taskId: string | undefined
+  taskId: string
 ) => tasksRepo.updateTask(taskArgs, taskId);
-const deleteTask = (taskId: string | undefined) => tasksRepo.deleteTask(taskId);
+const deleteTask = (taskId: string) => tasksRepo.deleteTask(taskId);
 
 export {
   getAll,

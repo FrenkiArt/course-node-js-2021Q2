@@ -1,5 +1,6 @@
 import * as uuid from 'uuid';
 import { Entity, Column, PrimaryColumn } from 'typeorm';
+import MyColumn from './column.model';
 // import User from './user.model';
 
 interface IBoard {
@@ -7,7 +8,7 @@ interface IBoard {
   columnsCounter: number;
   title: string;
   userId: string | null;
-  columns: Array<object>;
+  columns: Array<MyColumn>;
 }
 
 /**
@@ -23,7 +24,7 @@ class Board implements IBoard {
    * @param { number} columnsCounter - Column counter.| Счётчик колонок.
    * @param {string} title - The title of the board.| Заголовок доски.
    * @param {string} userId - User ID.| ID пользователя.
-   * @param {string} columns - Associative array of columns.| Ассоциативный
+   * @param {MyColumn[]} columns - Associative array of columns.| Ассоциативный
    * массив колонок.
    */
   constructor({
@@ -76,9 +77,8 @@ class Board implements IBoard {
   @Column({ type: 'text', nullable: true })
   userId: string | null;
 
-  // one-to-many
   @Column('simple-array')
-  columns: object[];
+  columns: MyColumn[];
 }
 
 export default Board;

@@ -23,7 +23,7 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
 };
 Object.defineProperty(exports, "__esModule", { value: true });
 const express = __importStar(require("express"));
-const user_model_1 = __importDefault(require("./user.model"));
+const user_model_1 = __importDefault(require("../../entity/user.model"));
 const usersService = __importStar(require("./user.service"));
 const tasksService = __importStar(require("../tasks/task.service"));
 const router = express.Router();
@@ -75,8 +75,8 @@ router.route('/:userId').delete(async (req, res) => {
         }
     });
     if (userIsBe) {
-        usersService.deleteUser(String(req.params['userId']));
         tasksService.deleteUserIdFromAllHisTasks(String(req.params['userId']));
+        usersService.deleteUser(String(req.params['userId']));
         res.status(204).json({ message: 'Объект удалён' });
     }
     else {

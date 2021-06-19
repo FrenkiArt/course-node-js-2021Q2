@@ -22,9 +22,6 @@ app.use('/', (req, res, next) => {
     }
     next();
 });
-app.use('/ar', (_req, res) => {
-    res.status(200).send('888');
-});
 app.use('/users', user_router_1.default);
 app.use('/boards', board_router_1.default);
 app.use('/boards/:boardId/tasks', task_router_1.default);
