@@ -1,8 +1,6 @@
 # RS School REST service
 
-## Docker
-
-Postgre
+## Postgre
 
 При первом запуске "docker compose up" создаются сущности.
 После создания сущностей, надо остановить сервер и снова запустить
