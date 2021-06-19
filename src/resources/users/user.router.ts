@@ -63,8 +63,8 @@ router.route('/:userId').delete(async (req, res) => {
   });
 
   if (userIsBe) {
-    tasksService.deleteUserIdFromAllHisTasks(String(req.params['userId']));
     usersService.deleteUser(String(req.params['userId']));
+    tasksService.deleteUserIdFromAllHisTasks(String(req.params['userId']));
 
     res.status(204).json({ message: 'Объект удалён' });
   } else {

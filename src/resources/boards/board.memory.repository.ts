@@ -52,9 +52,9 @@ const createBoard = async (reqBody: object) => {
   // return getById(newBoard.id);
   const boardRepository = getRepository(Board);
   const newBoard = boardRepository.create(reqBody);
-  boardRepository.save(newBoard);
+  const newSavedBoard = boardRepository.save(newBoard);
 
-  return newBoard;
+  return newSavedBoard;
 };
 
 /**

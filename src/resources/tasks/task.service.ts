@@ -6,8 +6,10 @@ const deleteAllTasksByBoardId = (boardId: string) =>
   tasksRepo.deleteAllTasksByBoardId(boardId);
 const deleteUserIdFromAllHisTasks = (userId: string) =>
   tasksRepo.deleteUserIdFromAllHisTasks(userId);
-const getById = (taskId: { boardId: string; taskId: string }) =>
-  tasksRepo.getById(taskId);
+// const getById = (taskId: { boardId: string; taskId: string }) =>
+// tasksRepo.getById(taskId);
+const getById = (boardId: string, taskId: string) =>
+  tasksRepo.getById(boardId, taskId);
 const createTask = (newTask: Task) => tasksRepo.createTask(newTask);
 const addNewTask = (newTask: Task) => tasksRepo.addNewTask(newTask);
 const updateTask = (

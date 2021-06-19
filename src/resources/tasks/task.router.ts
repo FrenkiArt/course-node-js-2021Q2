@@ -18,10 +18,15 @@ router.route('/').get(async (req, res) => {
 });
 
 router.route('/:taskId').get(async (req, res) => {
-  const taskById = await tasksService.getById({
+  /* const taskById = await tasksService.getById({
     boardId: String(req.params['boardId']),
     taskId: String(req.params['taskId']),
-  });
+  }); */
+
+  const taskById = await tasksService.getById(
+    String(req.params['boardId']),
+    String(req.params['taskId'])
+  );
 
   if (taskById) {
     res.status(200).json(taskById);

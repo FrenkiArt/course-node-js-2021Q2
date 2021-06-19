@@ -24,15 +24,25 @@ const getAll = async (boardId: string) => {
   return tasksByBoardId; */
 
   console.log('----- getAll --------- ');
+  console.log('---------------------- ');
   /* const tasksByBoardId = await getRepository(Task)
     .createQueryBuilder('task')
     .where('task.boardId = :boardId', { boardId })
     .getMany(); */
 
-  const taskRepository = await getRepository(Task);
-  const tasksByBoardId = taskRepository.find({
+  const taskRepository = getRepository(Task);
+  /* const tasksByBoardId = await taskRepository.find({
     where: { boardId },
-  });
+  }); */
+
+  const tasksByBoardId = await taskRepository
+    .createQueryBuilder('task')
+    .where('task.boardId = :boardId', { boardId })
+    .getMany();
+
+  console.log('tasksByBoardId is');
+
+  console.log(tasksByBoardId);
 
   return tasksByBoardId;
 };
@@ -49,11 +59,21 @@ const deleteAllTasksByBoardId = async (boardId: string) => {
 
   console.log('----- deleteAllTasksByBoardId --------- ');
   const taskRepository = getRepository(Task);
-  taskRepository
+  /* taskRepository
     .createQueryBuilder('task')
     .delete()
     .where('boardId = :boardId', { boardId })
-    .execute();
+    .execute(); */
+
+  const deleteResult = await taskRepository.delete({ boardId });
+
+  /* const massivUdalite = await getAll(boardId);
+  const deleteResult = await taskRepository.remove(massivUdalite); */
+  console.log('Удаляемые таски по АйДи борды');
+  console.log(deleteResult);
+  // DeleteResult { raw: [], affected: 1 }
+
+  return deleteResult.raw;
 };
 
 /**
@@ -72,12 +92,15 @@ const deleteUserIdFromAllHisTasks = async (userId: string) => {
   }); */
 
   console.log('----- deleteUserIdFromAllHisTasks --------- ');
-  await getConnection()
+  /* await getConnection()
     .createQueryBuilder()
     .update(Task)
     .set({ userId: null })
     .where('userId = :userId', { userId })
-    .execute();
+    .execute(); */
+
+  const taskRepository = getRepository(Task);
+  await taskRepository.update({ userId }, { userId: null });
 
   /* await getConnection()
     .createQueryBuilder()
@@ -96,7 +119,8 @@ const deleteUserIdFromAllHisTasks = async (userId: string) => {
  * @param {string} boardId - Board ID.| ID доски.
  * @return {object} The task object.| Объект задачи.
  */
-const getById = async (args: { taskId: string; boardId: string }) => {
+// const getById = async (args: { taskId: string; boardId: string }) => {
+const getById = async (boardId: string, taskId: string) => {
   /* dataBase.tasks.filter(
     (task) => task.id === args.taskId && task.boardId === args.boardId
   )[0]; */
@@ -112,17 +136,30 @@ const getById = async (args: { taskId: string; boardId: string }) => {
     .getOne();
   return constById; */
 
-  const taskRepository = await getRepository(Task);
+  /* const taskRepository = await getRepository(Task);
   const taskById = taskRepository.findOne({
     where: { boardId: args.boardId, id: args.taskId },
-  });
-  /* const taskById = taskRepository
+  }); */
+
+  /* const taskRepository = getRepository(Task);
+  const taskById = await taskRepository.findOne({
+    where: { boardId, id: taskId },
+  }); */
+
+  const taskRepository = getRepository(Task);
+  /* const taskById = await taskRepository
     .createQueryBuilder('task')
-    .where('boardId = :boardId', {
-      boardId: args.boardId,
+    .where('task.boardId = :boardId', {
+      boardId,
     })
-    .andWhere('id = :taskId', { id: args.taskId })
+    .andWhere('task.id = :taskId', { id: taskId })
     .getOne(); */
+  const taskById = await taskRepository.findOne({
+    where: { boardId, id: taskId },
+  });
+
+  console.log('Результат попытки получения по АйДи');
+  console.log(taskById);
   return taskById;
 };
 
@@ -152,8 +189,8 @@ const createTask = async (newTask: Task) => {
   console.log('----- createTask --------- ');
   const taskRepository = await getRepository(Task);
   const newCreatedTask = taskRepository.create(newTask);
-  taskRepository.save(newCreatedTask);
-  return newCreatedTask;
+  const newSavedTasktask = taskRepository.save(newCreatedTask);
+  return newSavedTasktask;
 };
 
 /**
@@ -217,6 +254,8 @@ const deleteTask = async (taskId: string) => {
     if (item.id === taskId) {
       dataBase.tasks.splice(index, 1);
     }
+
+
   }); */
 
   await getConnection()

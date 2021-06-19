@@ -77,8 +77,14 @@ class Board implements IBoard {
   @Column({ type: 'text', nullable: true })
   userId: string | null;
 
-  @Column('simple-array')
+  /* @Column({ type: 'simple-array', nullable: true })
+  columns: MyColumn[]; */
+
+  @Column({ type: 'json', nullable: true })
   columns: MyColumn[];
+
+  /* @Column({ type: 'json', nullable: true })
+  columns?: string; */
 }
 
 export default Board;
