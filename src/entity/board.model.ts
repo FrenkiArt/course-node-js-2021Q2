@@ -21,7 +21,7 @@ class Board implements IBoard {
    * This class creates an instance of the user's whiteboard.
    * Этот класс создаёт экземпляр доски пользователя.
    * @param {string} id - ID of the user's board.| ID доски пользователя.
-   * @param { number} columnsCounter - Column counter.| Счётчик колонок.
+   * @param {number} columnsCounter - Column counter.| Счётчик колонок.
    * @param {string} title - The title of the board.| Заголовок доски.
    * @param {string} userId - User ID.| ID пользователя.
    * @param {MyColumn[]} columns - Associative array of columns.| Ассоциативный
@@ -34,17 +34,17 @@ class Board implements IBoard {
     userId = 'userId',
     columns = [
       {
-        id: uuid.v4(),
+        id: 'string',
         title: 'string',
         order: 0,
       },
       {
-        id: uuid.v4(),
+        id: 'string',
         title: 'string',
         order: 0,
       },
       {
-        id: uuid.v4(),
+        id: 'string',
         title: 'string',
         order: 0,
       },

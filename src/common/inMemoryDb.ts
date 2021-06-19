@@ -31,6 +31,8 @@ const connectToDB = async () => {
 const TryDBConnect = async (cb: () => void) => {
   try {
     await connectToDB();
+    /* const connection = getConnection();
+    await connection.runMigrations(); */
     cb();
   } catch (err) {
     console.error('DB connect is error hehe');
