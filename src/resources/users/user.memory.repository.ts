@@ -92,11 +92,17 @@ const updateUser = async (
     return item;
   }); */
 
-  const userRepository = getRepository(User);
-  const updatedUser = await userRepository.update(userId, userArgs);
+  /* const userRepository = getRepository(User);
+  const updatedUser = await userRepository.update(userId, userArgs); */
+
+  const updatedUser = await getConnection()
+    .createQueryBuilder()
+    .update(User)
+    .set(userArgs)
+    .where('id = :userId', { userId })
+    .execute();
   return updatedUser;
 };
-console.log(getConnection);
 
 /**
  * This function removes the user from the database.

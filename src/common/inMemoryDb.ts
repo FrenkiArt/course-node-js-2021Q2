@@ -1,20 +1,20 @@
 import 'reflect-metadata';
 import { createConnection, getConnection } from 'typeorm';
-import Board from '../entity/board.model';
+/* import Board from '../entity/board.model';
 import Task from '../entity/task.model';
-import User from '../entity/user.model';
+import User from '../entity/user.model'; */
 
-interface DataBase {
+/* interface DataBase {
   users: Array<User>;
   boards: Array<Board>;
   tasks: Array<Task>;
-}
+} */
 
-const dataBase: DataBase = {
+/* const dataBase: DataBase = {
   users: [],
   boards: [],
   tasks: [],
-};
+}; */
 
 const connectToDB = async () => {
   // let connection;
@@ -33,10 +33,11 @@ const TryDBConnect = async (cb: () => void) => {
     await connectToDB();
     /* const connection = getConnection();
     await connection.runMigrations(); */
+
     cb();
   } catch (err) {
     console.error('DB connect is error hehe');
   }
 };
 
-export { dataBase, TryDBConnect };
+export { /* dataBase, */ TryDBConnect };
