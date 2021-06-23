@@ -1,4 +1,6 @@
 
+ts-node ./node_modules/typeorm/cli.js --config=ormconfig.json "migration:generate" "-n" "TodoMigration"
+"db:drop": "yarn typeorm schema:drop",
 host.docker.internal
 "postgres:9.6.1"
 postgres:13.3-alpine
