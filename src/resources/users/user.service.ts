@@ -3,7 +3,7 @@ import User from '../../entity/user.model';
 
 const getAll = () => usersRepo.getAll();
 const getById = (userId: string) => usersRepo.getById(userId);
-const getByLogin = (login: string) => usersRepo.getById(login);
+const getByLogin = (login: string) => usersRepo.getByLogin(login);
 const createUser = (newUser: User) => usersRepo.createUser(newUser);
 const addNewUser = (newUser: User) => usersRepo.addNewUser(newUser);
 const updateUser = (userArgs: User, userId: string) =>

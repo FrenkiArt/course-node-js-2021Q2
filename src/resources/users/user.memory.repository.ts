@@ -41,8 +41,21 @@ const getById = async (userId: string) => {
  * @return {object} User object.| Объект пользователя.
  */
 const getByLogin = async (login: string) => {
+  console.log('------- getByLogin -----------');
+
   const userRepository = getRepository(User);
-  const userByLogin = await userRepository.findOne(login);
+  const userByLogin = await userRepository.findOne({ login });
+
+  /* const userByLogin = await userRepository
+    .createQueryBuilder('user')
+    .where('user.login = :login', { login })
+    .getOne(); */
+
+  /* const userByLogin = await userRepository.findOne({
+    where: { login },
+  }); */
+
+  console.log('userByLogin is', userByLogin);
 
   return userByLogin;
 };

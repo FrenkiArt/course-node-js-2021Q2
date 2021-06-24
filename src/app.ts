@@ -28,7 +28,9 @@ app.use('/', (req: Request, res: Response, next: NextFunction) => {
   next();
 });
 
-app.use('/login', loginRouter);
+app.use(loginRouter);
+
+// app.use(authMiddleware);
 
 app.use('/users', usersRouter);
 app.use('/boards', boardsRouter);
