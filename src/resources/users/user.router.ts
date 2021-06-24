@@ -1,4 +1,5 @@
 import * as express from 'express';
+import { genSalt, hash } from 'bcryptjs';
 import User from '../../entity/user.model';
 import * as usersService from './user.service';
 import * as tasksService from '../tasks/task.service';
@@ -26,7 +27,13 @@ router.route('/:userId').get(async (req, res) => {
 });
 
 router.route('/').post(async (req, res) => {
+  /* попытка создания  пользователя с паролем*/
+  const salt = await genSalt(10);
+  console.log('before code password', req.body.password);
+  req.body.password = await hash(req.body.password, salt);
+  console.log('after code password', req.body.password);
   const user: User = await usersService.createUser(req.body);
+
   res.status(201).json(User.toResponse(user));
 });
 

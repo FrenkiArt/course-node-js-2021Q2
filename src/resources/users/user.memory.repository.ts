@@ -16,8 +16,6 @@ import User from '../../entity/user.model';
  * Ассоциативный массив пользователей.
  */
 const getAll = async () => {
-  // [];
-  // dataBase.users;
   const userRepository = getRepository(User);
 
   return userRepository.find();
@@ -30,13 +28,23 @@ const getAll = async () => {
  * @return {object} User object.| Объект пользователя.
  */
 const getById = async (userId: string) => {
-  // dataBase.users.filter((user: User) => user.id === userId)[0];
-  // const userById = await entityManager.findOne(User, userId);
-
   const userRepository = getRepository(User);
   const userById = await userRepository.findOne(userId);
-  // if (userById === undefined) return 'userById not found';
+
   return userById;
+};
+
+/**
+ * This function returns the user by login.
+ * Эта функция возвращает пользователя по login.
+ * @param {string} login - User login.| login пользователя.
+ * @return {object} User object.| Объект пользователя.
+ */
+const getByLogin = async (login: string) => {
+  const userRepository = getRepository(User);
+  const userByLogin = await userRepository.findOne(login);
+
+  return userByLogin;
 };
 
 /**
@@ -61,12 +69,11 @@ const addNewUser = async (newUser: User) => {
  */
 
 const createUser = async (reqBody: object) => {
-  // const newUser = new User(reqBody);
   const userRepository = getRepository(User);
   const newUser = userRepository.create(reqBody);
-  // dataBase.users.push(newUser);
+
   const newSavedUser = userRepository.save(newUser);
-  // return newUser;
+
   return newSavedUser;
 };
 
@@ -81,20 +88,6 @@ const updateUser = async (
   userArgs: { name: string; login: string; password: string },
   userId: string
 ) => {
-  /* dataBase.users.forEach((item: User) => {
-    if (item.id === userId) {
-      item.name = userArgs.name;
-      item.login = userArgs.login;
-      item.password = userArgs.password;
-
-      return item;
-    }
-    return item;
-  }); */
-
-  /* const userRepository = getRepository(User);
-  const updatedUser = await userRepository.update(userId, userArgs); */
-
   const updatedUser = await getConnection()
     .createQueryBuilder()
     .update(User)
@@ -110,14 +103,6 @@ const updateUser = async (
  * @param {string} userId User ID.| Id пользователя.
  */
 const deleteUser = async (userId: string) => {
-  /* dataBase.users.forEach((item: User, index) => {
-    if (item.id === userId) {
-      dataBase.users.splice(index, 1);
-    }
-  }); */
-
-  /* const userRepository = getRepository(User);
-  await userRepository.delete(userId); */
   await getConnection()
     .createQueryBuilder()
     .delete()
@@ -126,4 +111,12 @@ const deleteUser = async (userId: string) => {
     .execute();
 };
 
-export { getAll, addNewUser, updateUser, deleteUser, getById, createUser };
+export {
+  getAll,
+  addNewUser,
+  updateUser,
+  deleteUser,
+  getById,
+  createUser,
+  getByLogin,
+};
