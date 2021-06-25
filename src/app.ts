@@ -13,11 +13,14 @@ import {
   clientErrorHandler,
   errorHandler,
 } from './common/errorHadlers';
+/* import createAdmin from './common/createAdmin'; */
 
 const app = express();
 const swaggerDocument = YAML.load(path.join(__dirname, '../doc/api.yaml'));
 
 app.use(express.json());
+
+/* createAdmin(); */
 
 app.use('/doc', swaggerUI.serve, swaggerUI.setup(swaggerDocument));
 
