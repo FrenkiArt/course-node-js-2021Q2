@@ -32,6 +32,7 @@ app.use('/', (req: Request, res: Response, next: NextFunction) => {
 app.use(loginRouter);
 
 app.use(authMiddleware);
+// console.log(authMiddleware);
 
 app.use('/users', usersRouter);
 app.use('/boards', boardsRouter);

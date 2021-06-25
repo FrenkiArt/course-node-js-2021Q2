@@ -26,6 +26,7 @@
     "google",
     "plugin:import/typescript"
   ],
+  "eslintIgnore": ["/src/migration/*.ts"],
   "rules": {
     "import/extensions": "off",
     "linebreak-style": "off",
