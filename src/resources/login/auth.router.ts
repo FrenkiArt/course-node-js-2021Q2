@@ -1,8 +1,31 @@
-import express, { Request, Response, NextFunction } from 'express';
+import { Request, Response, NextFunction } from 'express';
+import jwt from 'jsonwebtoken';
 
-import User from '../../entity/user.model';
-import * as loginService from './login.service';
+import config from '../../common/config';
 
-const auth = express.Router();
+const authMiddleware = (req: Request, res: Response, next: NextFunction) => {
+  const authHeader = req.header('Authorization');
 
-auth.use();
+  if (authHeader !== undefined) {
+    const tokenString = req.header('Authorization');
+
+    if (tokenString !== undefined) {
+      const [type, token] = tokenString.split(' ');
+
+      if (type !== 'Bearer') {
+        res.status(401).json({
+          error: `Схема авторизации неправильная.`,
+        });
+      } else {
+        const data = jwt.verify(String(token), config.JWT_SECRET);
+        console.log('--------- data is ---', data);
+
+        return next();
+      }
+    }
+  }
+
+  res.status(401).json({ error: 'Unauthorized' });
+};
+
+export default authMiddleware;

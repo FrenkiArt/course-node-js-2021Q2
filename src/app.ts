@@ -6,6 +6,7 @@ import usersRouter from './resources/users/user.router';
 import boardsRouter from './resources/boards/board.router';
 import tasksRouter from './resources/tasks/task.router';
 import loginRouter from './resources/login/login.router';
+import authMiddleware from './resources/login/auth.router';
 
 import {
   logErrors,
@@ -30,7 +31,7 @@ app.use('/', (req: Request, res: Response, next: NextFunction) => {
 
 app.use(loginRouter);
 
-// app.use(authMiddleware);
+app.use(authMiddleware);
 
 app.use('/users', usersRouter);
 app.use('/boards', boardsRouter);

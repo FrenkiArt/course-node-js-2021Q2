@@ -43,19 +43,4 @@ const generateAuthToken = async (userId: User['id'], login: User['login']) => {
   return token;
 };
 
-/* const auth = async (login, password) => {
-  // const { login, password} = req.body;
-  const user: User | undefined = await findUserByLogin(login);
-
-  if (!user) {
-    return null;
-  }
-  const token = await generateAuthToken(user['id'], user['login']);
-  if (!token) {
-    res.status(403).send('Wrong login or wrong password');
-  } else {
-    res.status(200).json({ token });
-  }
-}; */
-
 export { findUserById, validateUser, findUserByLogin, generateAuthToken };
