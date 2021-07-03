@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 
 host.docker.internal
 "postgres:9.6.1"
@@ -33,3 +34,5 @@ docker login
 
 5 пушим
  docker image push yourLogin/imageNameNew:tag
+=======
+>>>>>>> master

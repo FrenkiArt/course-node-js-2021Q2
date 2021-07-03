@@ -1,10 +1,15 @@
+<<<<<<< HEAD
 import 'reflect-metadata';
 // import { createConnection } from 'typeorm';
+=======
+import fs from 'fs';
+>>>>>>> master
 import config from './common/config';
 import app from './app';
 // import User from './entity/user.model';
 import { TryDBConnect } from './common/inMemoryDb';
 
+<<<<<<< HEAD
 /* TryDBConnect(() => {
   app.listen(config.PORT, () => {
     console.log(`App is running on http://localhost:${config.PORT}`);
@@ -50,3 +55,40 @@ TryDBConnect(() => {
     );
   })
   .catch((error) => console.log('TypeORM connection error: ', error)); */
+=======
+const server = app.listen(config.PORT, () => {
+  console.log(`App is running on http://localhost:${config.PORT}`);
+});
+
+process.on('unhundledRejection', (err) => {
+  console.log(err.name, err.message);
+  console.log('unhundledRejection');
+
+  const textRow = `${err} ${err.message} \n`;
+
+  fs.appendFileSync('./logs/errors-log.txt', textRow, {
+    encoding: 'utf8',
+    flag: 'w',
+  });
+
+  server.close(() => {
+    process.exit(1);
+  });
+});
+
+process.on('uncaughtException', (err) => {
+  console.log(err.name, err.message);
+  console.log('uncaughtException');
+
+  const textRow = `${err} ${err.message} \n`;
+
+  fs.appendFileSync('./logs/errors-log.txt', textRow, {
+    encoding: 'utf8',
+    flag: 'w',
+  });
+
+  server.close(() => {
+    process.exit(1);
+  });
+});
+>>>>>>> master

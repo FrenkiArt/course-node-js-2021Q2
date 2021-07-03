@@ -7,6 +7,7 @@ require("reflect-metadata");
 // import { createConnection } from 'typeorm';
 const config_1 = __importDefault(require("./common/config"));
 const app_1 = __importDefault(require("./app"));
+<<<<<<< HEAD
 // import User from './entity/user.model';
 const inMemoryDb_1 = require("./common/inMemoryDb");
 /* TryDBConnect(() => {
@@ -51,3 +52,22 @@ inMemoryDb_1.TryDBConnect(() => {
     );
   })
   .catch((error) => console.log('TypeORM connection error: ', error)); */
+=======
+const server = app_1.default.listen(config_1.default.PORT, () => {
+    console.log(`App is running on http://localhost:${config_1.default.PORT}`);
+});
+process.on('unhundledRejection', (err) => {
+    console.log(err.name, err.message);
+    console.log('unhundledRejection');
+    server.close(() => {
+        process.exit(1);
+    });
+});
+process.on('uncaughtException', (err) => {
+    console.log(err.name, err.message);
+    console.log('uncaughtException');
+    server.close(() => {
+        process.exit(1);
+    });
+});
+>>>>>>> master
