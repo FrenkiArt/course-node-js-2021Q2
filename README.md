@@ -1,5 +1,11 @@
 # RS School REST service
 
+## Postgre
+
+При первом запуске "docker compose up" создаются сущности.
+После создания сущностей, надо остановить сервер и снова запустить
+и тогда можно будет уже спокойно работать со всеми созданными сущностями.
+
 ## Docker
 
 Use "docker pull artywork/my-app:v3" for downloading my image.

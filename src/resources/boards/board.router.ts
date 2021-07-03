@@ -1,5 +1,5 @@
 import * as express from 'express';
-import Board from './board.model';
+import Board from '../../entity/board.model';
 import * as boardsService from './board.service';
 import * as tasksService from '../tasks/task.service';
 

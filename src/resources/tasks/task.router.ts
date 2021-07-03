@@ -1,5 +1,5 @@
 import * as express from 'express';
-import Task from './task.model';
+import Task from '../../entity/task.model';
 import * as tasksService from './task.service';
 
 const router = express.Router({ mergeParams: true });
@@ -18,10 +18,15 @@ router.route('/').get(async (req, res) => {
 });
 
 router.route('/:taskId').get(async (req, res) => {
-  const taskById = await tasksService.getById({
+  /* const taskById = await tasksService.getById({
     boardId: String(req.params['boardId']),
     taskId: String(req.params['taskId']),
-  });
+  }); */
+
+  const taskById = await tasksService.getById(
+    String(req.params['boardId']),
+    String(req.params['taskId'])
+  );
 
   if (taskById) {
     res.status(200).json(taskById);
@@ -54,7 +59,7 @@ router.route('/:taskId').put(async (req, res) => {
   });
 
   if (taskIsBe) {
-    tasksService.updateTask(req.body, req.params['taskId']);
+    tasksService.updateTask(req.body, String(req.params['taskId']));
     res.status(200).json(req.body);
   } else {
     res
@@ -75,7 +80,7 @@ router.route('/:taskId').delete(async (req, res) => {
   });
 
   if (taskIsBe) {
-    tasksService.deleteTask(req.params['taskId']);
+    tasksService.deleteTask(String(req.params['taskId']));
     res.status(204).json({ message: 'Объект удалён' });
   } else {
     res

@@ -23,7 +23,7 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
 };
 Object.defineProperty(exports, "__esModule", { value: true });
 const express = __importStar(require("express"));
-const task_model_1 = __importDefault(require("./task.model"));
+const task_model_1 = __importDefault(require("../../entity/task.model"));
 const tasksService = __importStar(require("./task.service"));
 const router = express.Router({ mergeParams: true });
 router.route('/').get(async (req, res) => {
@@ -69,7 +69,7 @@ router.route('/:taskId').put(async (req, res) => {
         }
     });
     if (taskIsBe) {
-        tasksService.updateTask(req.body, req.params['taskId']);
+        tasksService.updateTask(req.body, String(req.params['taskId']));
         res.status(200).json(req.body);
     }
     else {
@@ -87,7 +87,7 @@ router.route('/:taskId').delete(async (req, res) => {
         }
     });
     if (taskIsBe) {
-        tasksService.deleteTask(req.params['taskId']);
+        tasksService.deleteTask(String(req.params['taskId']));
         res.status(204).json({ message: 'Объект удалён' });
     }
     else {

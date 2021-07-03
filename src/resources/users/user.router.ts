@@ -1,5 +1,5 @@
 import * as express from 'express';
-import User from './user.model';
+import User from '../../entity/user.model';
 import * as usersService from './user.service';
 import * as tasksService from '../tasks/task.service';
 
@@ -65,6 +65,7 @@ router.route('/:userId').delete(async (req, res) => {
   if (userIsBe) {
     usersService.deleteUser(String(req.params['userId']));
     tasksService.deleteUserIdFromAllHisTasks(String(req.params['userId']));
+
     res.status(204).json({ message: 'Объект удалён' });
   } else {
     res

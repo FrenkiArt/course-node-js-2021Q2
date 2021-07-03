@@ -1,13 +1,15 @@
 import * as tasksRepo from './task.memory.repository';
-import Task from './task.model';
+import Task from '../../entity/task.model';
 
 const getAll = (boardId: string) => tasksRepo.getAll(boardId);
 const deleteAllTasksByBoardId = (boardId: string) =>
   tasksRepo.deleteAllTasksByBoardId(boardId);
 const deleteUserIdFromAllHisTasks = (userId: string) =>
   tasksRepo.deleteUserIdFromAllHisTasks(userId);
-const getById = (taskId: { boardId: string; taskId: string | undefined }) =>
-  tasksRepo.getById(taskId);
+// const getById = (taskId: { boardId: string; taskId: string }) =>
+// tasksRepo.getById(taskId);
+const getById = (boardId: string, taskId: string) =>
+  tasksRepo.getById(boardId, taskId);
 const createTask = (newTask: Task) => tasksRepo.createTask(newTask);
 const addNewTask = (newTask: Task) => tasksRepo.addNewTask(newTask);
 const updateTask = (
@@ -19,9 +21,9 @@ const updateTask = (
     boardId: string;
     columnId: string;
   },
-  taskId: string | undefined
+  taskId: string
 ) => tasksRepo.updateTask(taskArgs, taskId);
-const deleteTask = (taskId: string | undefined) => tasksRepo.deleteTask(taskId);
+const deleteTask = (taskId: string) => tasksRepo.deleteTask(taskId);
 
 export {
   getAll,

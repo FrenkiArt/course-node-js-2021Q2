@@ -1,5 +1,13 @@
-import { dataBase } from '../../common/inMemoryDb';
-import User from './user.model';
+import { getConnection, getRepository } from 'typeorm';
+// import { dataBase } from '../../common/inMemoryDb';
+import User from '../../entity/user.model';
+
+// const entityManager = getManager();
+// you can also get it via getConnection().manager
+
+// const userRepository = getRepository(User);
+// you can also get it via getConnection().getRepository()
+// or getManager().getRepository()
 
 /**
  * This function returns an array of users.
@@ -7,9 +15,13 @@ import User from './user.model';
  * @return {array} An associative array of users.|
  * Ассоциативный массив пользователей.
  */
-const getAll = async () =>
+const getAll = async () => {
   // [];
-  dataBase.users;
+  // dataBase.users;
+  const userRepository = getRepository(User);
+
+  return userRepository.find();
+};
 
 /**
  * This function returns the user by ID.
@@ -17,8 +29,15 @@ const getAll = async () =>
  * @param {string} userId - User ID.| ID пользователя.
  * @return {object} User object.| Объект пользователя.
  */
-const getById = async (userId: string) =>
-  dataBase.users.filter((user: User) => user.id === userId)[0];
+const getById = async (userId: string) => {
+  // dataBase.users.filter((user: User) => user.id === userId)[0];
+  // const userById = await entityManager.findOne(User, userId);
+
+  const userRepository = getRepository(User);
+  const userById = await userRepository.findOne(userId);
+  // if (userById === undefined) return 'userById not found';
+  return userById;
+};
 
 /**
  * This function adds a new user to the database.
@@ -27,7 +46,9 @@ const getById = async (userId: string) =>
  * нового пользователя.
  */
 const addNewUser = async (newUser: User) => {
-  dataBase.users.push(newUser);
+  // dataBase.users.push(newUser);
+  const userRepository = getRepository(User);
+  userRepository.save(newUser);
 };
 
 /**
@@ -40,9 +61,13 @@ const addNewUser = async (newUser: User) => {
  */
 
 const createUser = async (reqBody: object) => {
-  const newUser = new User(reqBody);
-  dataBase.users.push(newUser);
-  return newUser;
+  // const newUser = new User(reqBody);
+  const userRepository = getRepository(User);
+  const newUser = userRepository.create(reqBody);
+  // dataBase.users.push(newUser);
+  const newSavedUser = userRepository.save(newUser);
+  // return newUser;
+  return newSavedUser;
 };
 
 /**
@@ -56,7 +81,7 @@ const updateUser = async (
   userArgs: { name: string; login: string; password: string },
   userId: string
 ) => {
-  dataBase.users.forEach((item: User) => {
+  /* dataBase.users.forEach((item: User) => {
     if (item.id === userId) {
       item.name = userArgs.name;
       item.login = userArgs.login;
@@ -65,8 +90,13 @@ const updateUser = async (
       return item;
     }
     return item;
-  });
+  }); */
+
+  const userRepository = getRepository(User);
+  const updatedUser = await userRepository.update(userId, userArgs);
+  return updatedUser;
 };
+console.log(getConnection);
 
 /**
  * This function removes the user from the database.
@@ -74,11 +104,20 @@ const updateUser = async (
  * @param {string} userId User ID.| Id пользователя.
  */
 const deleteUser = async (userId: string) => {
-  dataBase.users.forEach((item: User, index) => {
+  /* dataBase.users.forEach((item: User, index) => {
     if (item.id === userId) {
       dataBase.users.splice(index, 1);
     }
-  });
+  }); */
+
+  /* const userRepository = getRepository(User);
+  await userRepository.delete(userId); */
+  await getConnection()
+    .createQueryBuilder()
+    .delete()
+    .from(User)
+    .where(`id = :userId`, { userId })
+    .execute();
 };
 
 export { getAll, addNewUser, updateUser, deleteUser, getById, createUser };

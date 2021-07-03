@@ -1,17 +1,48 @@
-import { dataBase } from '../../common/inMemoryDb';
-import Task from './task.model';
+import { getConnection, getRepository } from 'typeorm';
+// import { dataBase } from '../../common/inMemoryDb';
+import Task from '../../entity/task.model';
 
 /**
  * This function returns an array of tasks for a specific board.
  * Эта функция возвращает массив задач конкретной доски.
- * @param {string | undefined} boardId - Board ID.| ID доски.
+ * @param {string} boardId - Board ID.| ID доски.
  * @return {array} Associative array of tasks for a specific board.|
  * Ассоциативный массив задач конкретной доски.
  */
 const getAll = async (boardId: string) => {
-  const tasksByBoardId = dataBase.tasks.filter(
+  /* const tasksByBoardId = dataBase.tasks.filter(
     (task: { boardId: string }) => task.boardId === boardId
   );
+
+  return tasksByBoardId; */
+
+  /* const taskRepository = getRepository(Task);
+  const tasksByBoardId = taskRepository
+    .createQueryBuilder('task')
+    .where('boardId = :boardId', { boardId })
+    .getMany();
+  return tasksByBoardId; */
+
+  console.log('----- getAll --------- ');
+  console.log('---------------------- ');
+  /* const tasksByBoardId = await getRepository(Task)
+    .createQueryBuilder('task')
+    .where('task.boardId = :boardId', { boardId })
+    .getMany(); */
+
+  const taskRepository = getRepository(Task);
+  /* const tasksByBoardId = await taskRepository.find({
+    where: { boardId },
+  }); */
+
+  const tasksByBoardId = await taskRepository
+    .createQueryBuilder('task')
+    .where('task.boardId = :boardId', { boardId })
+    .getMany();
+
+  console.log('tasksByBoardId is');
+
+  console.log(tasksByBoardId);
 
   return tasksByBoardId;
 };
@@ -19,12 +50,30 @@ const getAll = async (boardId: string) => {
 /**
  * This function deletes all tasks by the passed board ID.
  * Эта функция удаляет все задачи по переданному ID доски.
- * @param {string | undefined} boardId - Board ID.| ID доски.
+ * @param {string} boardId - Board ID.| ID доски.
  */
 const deleteAllTasksByBoardId = async (boardId: string) => {
-  dataBase.tasks = dataBase.tasks.filter(
+  /* dataBase.tasks = dataBase.tasks.filter(
     (task: Task) => task.boardId !== boardId
-  );
+  ); */
+
+  console.log('----- deleteAllTasksByBoardId --------- ');
+  const taskRepository = getRepository(Task);
+  /* taskRepository
+    .createQueryBuilder('task')
+    .delete()
+    .where('boardId = :boardId', { boardId })
+    .execute(); */
+
+  const deleteResult = await taskRepository.delete({ boardId });
+
+  /* const massivUdalite = await getAll(boardId);
+  const deleteResult = await taskRepository.remove(massivUdalite); */
+  console.log('Удаляемые таски по АйДи борды');
+  console.log(deleteResult);
+  // DeleteResult { raw: [], affected: 1 }
+
+  return deleteResult.raw;
 };
 
 /**
@@ -36,11 +85,29 @@ const deleteAllTasksByBoardId = async (boardId: string) => {
  * @param {string} userId - User ID.| ID пользователя.
  */
 const deleteUserIdFromAllHisTasks = async (userId: string) => {
-  dataBase.tasks.forEach((task) => {
+  /* dataBase.tasks.forEach((task) => {
     if (task.userId === userId) {
       task.userId = null;
     }
-  });
+  }); */
+
+  console.log('----- deleteUserIdFromAllHisTasks --------- ');
+  /* await getConnection()
+    .createQueryBuilder()
+    .update(Task)
+    .set({ userId: null })
+    .where('userId = :userId', { userId })
+    .execute(); */
+
+  const taskRepository = getRepository(Task);
+  await taskRepository.update({ userId }, { userId: null });
+
+  /* await getConnection()
+    .createQueryBuilder()
+    .update(Task)
+    .set({ userId: null })
+    .where(`userId = ${userId}`, { userId })
+    .execute(); */
 };
 
 /**
@@ -48,14 +115,53 @@ const deleteUserIdFromAllHisTasks = async (userId: string) => {
  * Эта функция возвращает задачу по ID задачи и ID доски.
  * @param {object} args - The object of the arguments to be passed.|
  * Объект передаваемых аргументов.
- * @param {string | undefined} taskId - Task ID.| ID задачи.
- * @param {string | undefined} boardId - Board ID.| ID доски.
+ * @param {string} taskId - Task ID.| ID задачи.
+ * @param {string} boardId - Board ID.| ID доски.
  * @return {object} The task object.| Объект задачи.
  */
-const getById = async (args: { taskId: string | undefined; boardId: string }) =>
-  dataBase.tasks.filter(
+// const getById = async (args: { taskId: string; boardId: string }) => {
+const getById = async (boardId: string, taskId: string) => {
+  /* dataBase.tasks.filter(
     (task) => task.id === args.taskId && task.boardId === args.boardId
-  )[0];
+  )[0]; */
+
+  console.log('----- getById --------- ');
+  /* const taskRepository = await getRepository(Task);
+  const constById = taskRepository
+    .createQueryBuilder('task')
+    .where(`boardId = ${args.boardId}`, {
+      boardId: args.boardId,
+    })
+    .andWhere(`id = ${args.taskId}`, { id: args.taskId })
+    .getOne();
+  return constById; */
+
+  /* const taskRepository = await getRepository(Task);
+  const taskById = taskRepository.findOne({
+    where: { boardId: args.boardId, id: args.taskId },
+  }); */
+
+  /* const taskRepository = getRepository(Task);
+  const taskById = await taskRepository.findOne({
+    where: { boardId, id: taskId },
+  }); */
+
+  const taskRepository = getRepository(Task);
+  /* const taskById = await taskRepository
+    .createQueryBuilder('task')
+    .where('task.boardId = :boardId', {
+      boardId,
+    })
+    .andWhere('task.id = :taskId', { id: taskId })
+    .getOne(); */
+  const taskById = await taskRepository.findOne({
+    where: { boardId, id: taskId },
+  });
+
+  console.log('Результат попытки получения по АйДи');
+  console.log(taskById);
+  return taskById;
+};
 
 /**
  * This function adds a new task to the database.
@@ -63,7 +169,11 @@ const getById = async (args: { taskId: string | undefined; boardId: string }) =>
  * @param {object} newTask The object of the new task.| Объект новой задачи.
  */
 const addNewTask = async (newTask: Task) => {
-  dataBase.tasks.push(newTask);
+  // dataBase.tasks.push(newTask);
+
+  console.log('----- addNewTask --------- ');
+  const taskRepository = await getRepository(Task);
+  taskRepository.save(newTask);
 };
 
 /**
@@ -73,8 +183,14 @@ const addNewTask = async (newTask: Task) => {
  * @return {object} The task object.| Объект задачи.
  */
 const createTask = async (newTask: Task) => {
-  dataBase.tasks.push(newTask);
-  return newTask;
+  /* dataBase.tasks.push(newTask);
+  return newTask; */
+
+  console.log('----- createTask --------- ');
+  const taskRepository = await getRepository(Task);
+  const newCreatedTask = taskRepository.create(newTask);
+  const newSavedTasktask = taskRepository.save(newCreatedTask);
+  return newSavedTasktask;
 };
 
 /**
@@ -93,9 +209,9 @@ const updateTask = async (
     boardId: string;
     columnId: string;
   },
-  taskId: string | undefined
+  taskId: string
 ) => {
-  dataBase.tasks.forEach(
+  /* dataBase.tasks.forEach(
     (item: {
       id: string;
       title: string;
@@ -117,20 +233,37 @@ const updateTask = async (
       }
       return item;
     }
-  );
+  ); */
+
+  console.log('----- updateTask --------- ');
+  await getConnection()
+    .createQueryBuilder()
+    .update(Task)
+    .set(taskArgs)
+    .where('id = :taskId', { taskId })
+    .execute();
 };
 
 /**
  * This function removes the user's task from the database by its ID.
  * Эта функция удаляет задачу пользователя из базы данных по её ID.
- * @param {string | undefined} taskId Task ID.| ID задачи.
+ * @param {string} taskId Task ID.| ID задачи.
  */
-const deleteTask = async (taskId: string | undefined) => {
-  dataBase.tasks.forEach((item: { id: string }, index: number) => {
+const deleteTask = async (taskId: string) => {
+  /* dataBase.tasks.forEach((item: { id: string }, index: number) => {
     if (item.id === taskId) {
       dataBase.tasks.splice(index, 1);
     }
-  });
+
+
+  }); */
+
+  await getConnection()
+    .createQueryBuilder()
+    .delete()
+    .from(Task)
+    .where('id = :taskId', { taskId })
+    .execute();
 };
 
 export {
